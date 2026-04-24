@@ -1,0 +1,1354 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Verve Ecosystem Revamp — Akintayo Olushola</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&family=Inter+Tight:wght@300..700&family=JetBrains+Mono:wght@300..600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0b0b0b;
+    --surface: #111;
+    --card: #161616;
+    --ink: #f4f1ea;
+    --muted: rgba(244,241,234,.55);
+    --faint: rgba(244,241,234,.11);
+    --hairStrong: rgba(244,241,234,.2);
+    --accent: #3d6b5c;       /* Verve deep teal */
+    --accent-lt: #5a9e87;
+    --accent-dim: rgba(61,107,92,.2);
+    --serif: "Newsreader", Georgia, serif;
+    --sans: "Inter Tight", system-ui, -apple-system, sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, monospace;
+    --pad: 80px;
+    --col: 740px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: inherit; }
+
+  /* ─── NAV ─────────────────────────────────────────── */
+  .cs-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 28px var(--pad);
+    border-bottom: 1px solid var(--faint);
+  }
+  .cs-nav-home {
+    font-family: var(--serif);
+    font-size: 17px;
+    text-decoration: none;
+    letter-spacing: -.01em;
+  }
+  .cs-nav-next {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+  }
+  .cs-nav-next:hover { color: var(--ink); }
+
+  /* ─── HERO ─────────────────────────────────────────── */
+  .hero {
+    max-width: calc(var(--col) + var(--pad) * 2);
+    margin: 0 auto;
+    padding: 72px var(--pad) 56px;
+  }
+  .hero-eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--accent-lt);
+    margin-bottom: 24px;
+  }
+  .hero h1 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(30px, 4.5vw, 50px);
+    line-height: 1.12;
+    letter-spacing: -.02em;
+    margin-bottom: 28px;
+  }
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 40px;
+  }
+  .tag {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    color: var(--muted);
+    border: 1px solid var(--faint);
+    border-radius: 99px;
+    padding: 4px 12px;
+  }
+
+  /* Meta strip */
+  .meta-strip {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    border: 1px solid var(--faint);
+    border-radius: 10px;
+    overflow: hidden;
+    background: var(--faint);
+  }
+  .meta-cell {
+    background: var(--surface);
+    padding: 18px 20px;
+  }
+  .meta-cell .mk {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 5px;
+  }
+  .meta-cell .mv {
+    font-size: 13px;
+    color: var(--ink);
+    line-height: 1.4;
+  }
+
+  /* ─── COVER ─────────────────────────────────────────── */
+  .cover {
+    width: 100%;
+    aspect-ratio: 16/6;
+    background: linear-gradient(135deg, #0d2620 0%, #1a4035 35%, #0d2a22 65%, #112b22 100%);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+    padding: 48px var(--pad);
+  }
+  .cover::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 60px,
+      rgba(255,255,255,.025) 60px,
+      rgba(255,255,255,.025) 61px
+    );
+  }
+  .cover::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 60px,
+      rgba(255,255,255,.018) 60px,
+      rgba(255,255,255,.018) 61px
+    );
+  }
+
+  /* Browser window mockup */
+  .cover-browser {
+    position: relative;
+    z-index: 2;
+    width: 480px;
+    max-width: 52%;
+    background: rgba(8,16,14,.9);
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 10px;
+    overflow: hidden;
+    backdrop-filter: blur(12px);
+  }
+  .browser-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    background: rgba(255,255,255,.04);
+    border-bottom: 1px solid rgba(255,255,255,.07);
+  }
+  .browser-bar .dot { width: 8px; height: 8px; border-radius: 99px; }
+  .browser-bar .url-bar {
+    flex: 1;
+    height: 20px;
+    background: rgba(255,255,255,.06);
+    border-radius: 4px;
+    margin-left: 8px;
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+    font-family: var(--mono);
+    font-size: 9px;
+    color: rgba(255,255,255,.3);
+    letter-spacing: .03em;
+  }
+  .browser-content {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .bc-hero-strip {
+    width: 100%;
+    height: 56px;
+    background: linear-gradient(90deg, var(--accent) 0%, var(--accent-lt) 100%);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    gap: 10px;
+  }
+  .bc-hero-strip .logo-mark {
+    width: 24px; height: 24px; border-radius: 4px;
+    background: rgba(255,255,255,.9);
+  }
+  .bc-hero-strip .logo-text {
+    width: 60px; height: 10px; border-radius: 2px;
+    background: rgba(255,255,255,.6);
+  }
+  .bc-hero-strip .cta {
+    margin-left: auto;
+    width: 56px; height: 22px; border-radius: 4px;
+    background: rgba(255,255,255,.25);
+  }
+  .bc-row {
+    display: flex;
+    gap: 8px;
+  }
+  .bc-card {
+    flex: 1;
+    height: 40px;
+    background: rgba(255,255,255,.06);
+    border-radius: 5px;
+    border: 1px solid rgba(255,255,255,.07);
+  }
+
+  /* Stat panels beside browser */
+  .cover-stats {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 180px;
+    max-width: 22%;
+  }
+  .c-stat {
+    background: rgba(8,16,14,.85);
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 8px;
+    padding: 14px 16px;
+    backdrop-filter: blur(8px);
+  }
+  .c-stat .n {
+    font-family: var(--serif);
+    font-size: 28px;
+    font-weight: 300;
+    color: var(--accent-lt);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .c-stat .d {
+    font-size: 11px;
+    color: rgba(255,255,255,.45);
+    line-height: 1.4;
+    font-family: var(--mono);
+    letter-spacing: .02em;
+  }
+
+  /* Mobile cover fallback */
+  .cover-mobile {
+    display: none;
+    width: 100%;
+    padding: 32px var(--pad);
+    background: linear-gradient(135deg, #0d2620, #1a4035);
+    gap: 0;
+    border-bottom: 1px solid var(--faint);
+  }
+  .cover-mobile-stats {
+    display: flex;
+    gap: 2px;
+    background: var(--faint);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .cms { flex: 1; background: var(--surface); padding: 20px 16px; text-align: center; }
+  .cms .n { font-family: var(--serif); font-size: 28px; color: var(--accent-lt); line-height: 1; margin-bottom: 4px; }
+  .cms .l { font-family: var(--mono); font-size: 10px; color: var(--muted); letter-spacing: .05em; text-transform: uppercase; }
+
+  /* ─── BODY ─────────────────────────────────────────── */
+  .body {
+    max-width: calc(var(--col) + var(--pad) * 2);
+    margin: 0 auto;
+    padding: 0 var(--pad);
+  }
+
+  .section {
+    padding: 64px 0;
+    border-top: 1px solid var(--faint);
+  }
+  .section:first-child { border-top: none; padding-top: 56px; }
+
+  .sec-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--accent-lt);
+    margin-bottom: 18px;
+  }
+
+  .section h2 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(22px, 3vw, 34px);
+    line-height: 1.18;
+    letter-spacing: -.01em;
+    margin-bottom: 22px;
+  }
+
+  .prose {
+    font-size: 16px;
+    line-height: 1.78;
+    color: var(--muted);
+  }
+  .prose + .prose { margin-top: 16px; }
+  .prose strong { color: var(--ink); font-weight: 500; }
+
+  /* ─── STAT METRICS ─────────────────────────────────── */
+  .metrics {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+    margin: 44px 0;
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--faint);
+  }
+  .metric {
+    background: var(--surface);
+    padding: 28px 22px;
+  }
+  .metric .num {
+    font-family: var(--serif);
+    font-size: 42px;
+    font-weight: 300;
+    line-height: 1;
+    color: var(--accent-lt);
+    margin-bottom: 8px;
+  }
+  .metric .lbl {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+  .metric .lbl strong { color: var(--ink); display: block; margin-bottom: 2px; }
+
+  /* ─── PRODUCTS TABLE ────────────────────────────────── */
+  .products-table {
+    margin: 32px 0;
+    border: 1px solid var(--faint);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .pt-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--faint);
+    align-items: center;
+    font-size: 14px;
+  }
+  .pt-row:last-child { border-bottom: none; }
+  .pt-row .name { color: var(--ink); }
+  .pt-row .badge {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 4px;
+    background: var(--accent-dim);
+    color: var(--accent-lt);
+  }
+  .pt-row .badge.consumer { background: rgba(212,169,106,.15); color: #d4a96a; }
+
+  /* ─── CLARITY DATA TABLE ────────────────────────────── */
+  .data-table {
+    margin: 32px 0;
+    border: 1px solid var(--faint);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .dt-head {
+    display: grid;
+    grid-template-columns: 2fr 3fr 1fr;
+    padding: 12px 20px;
+    background: var(--card);
+    border-bottom: 1px solid var(--faint);
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .dt-row {
+    display: grid;
+    grid-template-columns: 2fr 3fr 1fr;
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--faint);
+    align-items: start;
+    font-size: 13.5px;
+  }
+  .dt-row:last-child { border-bottom: none; }
+  .dt-row .signal { color: var(--ink); }
+  .dt-row .desc { color: var(--muted); line-height: 1.45; }
+  .dt-row .val {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--accent-lt);
+    text-align: right;
+  }
+
+  /* ─── CALLOUT QUOTE ─────────────────────────────────── */
+  .callout {
+    margin: 44px 0;
+    padding: 28px 32px;
+    border-left: 3px solid var(--accent-lt);
+    background: var(--accent-dim);
+    border-radius: 0 10px 10px 0;
+  }
+  .callout p {
+    font-family: var(--serif);
+    font-size: 19px;
+    font-style: italic;
+    line-height: 1.55;
+    color: var(--ink);
+    letter-spacing: -.01em;
+    margin-bottom: 10px;
+  }
+  .callout cite {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: .04em;
+    font-style: normal;
+  }
+
+  /* ─── ROOT CAUSE CHAIN ──────────────────────────────── */
+  .rca-chain {
+    margin: 32px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .rca-item {
+    background: var(--card);
+    border: 1px solid var(--faint);
+    border-radius: 8px;
+    padding: 18px 22px;
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 16px;
+    align-items: start;
+    position: relative;
+  }
+  .rca-item.root {
+    border-color: var(--accent-lt);
+    background: rgba(61,107,92,.1);
+  }
+  .rca-tag {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding-top: 2px;
+    line-height: 1.4;
+  }
+  .rca-item.root .rca-tag { color: var(--accent-lt); }
+  .rca-text { font-size: 14px; color: var(--muted); line-height: 1.6; }
+  .rca-text strong { color: var(--ink); }
+  .rca-arrow {
+    text-align: center;
+    color: var(--muted);
+    font-size: 18px;
+    padding: 4px 0;
+    line-height: 1;
+    opacity: .4;
+  }
+
+  /* ─── FRAMEWORK / PATHWAY ───────────────────────────── */
+  .pathway {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+    margin: 32px 0;
+    border-radius: 10px;
+    overflow: hidden;
+    background: var(--faint);
+  }
+  .pw-step {
+    background: var(--surface);
+    padding: 24px 20px;
+  }
+  .pw-num {
+    font-family: var(--serif);
+    font-size: 32px;
+    font-weight: 300;
+    color: var(--accent-lt);
+    line-height: 1;
+    margin-bottom: 10px;
+    opacity: .6;
+  }
+  .pw-stage {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--accent-lt);
+    margin-bottom: 8px;
+  }
+  .pw-title { font-size: 14px; color: var(--ink); margin-bottom: 6px; font-weight: 500; }
+  .pw-desc { font-size: 12.5px; color: var(--muted); line-height: 1.55; }
+
+  /* ─── PRINCIPLES ────────────────────────────────────── */
+  .principles {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin: 32px 0;
+    border: 1px solid var(--faint);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .principle {
+    display: grid;
+    grid-template-columns: 36px 1fr;
+    gap: 18px;
+    padding: 20px 22px;
+    border-bottom: 1px solid var(--faint);
+    align-items: start;
+  }
+  .principle:last-child { border-bottom: none; }
+  .principle .icon { font-size: 16px; padding-top: 2px; }
+  .principle .text { }
+  .principle .pname { font-size: 14px; color: var(--ink); font-weight: 500; margin-bottom: 5px; }
+  .principle .pdesc { font-size: 13.5px; color: var(--muted); line-height: 1.6; }
+
+  /* ─── PROCESS TIMELINE ──────────────────────────────── */
+  .process-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin: 32px 0;
+    border: 1px solid var(--faint);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .ps-row {
+    display: grid;
+    grid-template-columns: 32px 1fr auto;
+    gap: 18px;
+    padding: 20px 22px;
+    border-bottom: 1px solid var(--faint);
+    align-items: start;
+  }
+  .ps-row:last-child { border-bottom: none; }
+  .ps-num {
+    font-family: var(--serif);
+    font-size: 20px;
+    font-weight: 300;
+    color: var(--accent-lt);
+    opacity: .7;
+    line-height: 1.2;
+  }
+  .ps-content .ps-title { font-size: 14px; color: var(--ink); font-weight: 500; margin-bottom: 5px; }
+  .ps-content .ps-desc { font-size: 13.5px; color: var(--muted); line-height: 1.6; }
+  .ps-weeks {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: .04em;
+    white-space: nowrap;
+    padding-top: 3px;
+  }
+
+  /* ─── APPROACH CARDS ────────────────────────────────── */
+  .approach-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 32px 0;
+  }
+  .approach-card {
+    background: var(--card);
+    border: 1px solid var(--faint);
+    border-radius: 10px;
+    padding: 26px 22px;
+    position: relative;
+  }
+  .approach-card.selected { border-color: var(--accent-lt); background: rgba(61,107,92,.08); }
+  .chosen-badge {
+    position: absolute;
+    top: 16px; right: 16px;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--accent-lt);
+    background: var(--accent-dim);
+    border-radius: 4px;
+    padding: 3px 8px;
+  }
+  .approach-card h3 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: 18px;
+    letter-spacing: -.01em;
+    margin-bottom: 12px;
+    line-height: 1.25;
+  }
+  .approach-card p { font-size: 13.5px; color: var(--muted); line-height: 1.65; }
+
+  /* ─── IMAGE PLACEHOLDERS ────────────────────────────── */
+  .img-slot {
+    width: 100%;
+    border: 1.5px dashed var(--hairStrong);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: var(--card);
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    position: relative;
+    overflow: hidden;
+    cursor: default;
+  }
+  .img-slot::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 12px,
+      rgba(255,255,255,.015) 12px,
+      rgba(255,255,255,.015) 13px
+    );
+  }
+  .img-slot svg { opacity: .3; position: relative; z-index: 1; }
+  .slot-label { position: relative; z-index: 1; color: var(--muted); }
+  .slot-caption { position: relative; z-index: 1; font-size: 10px; color: rgba(244,241,234,.28); letter-spacing: .04em; text-transform: none; font-family: var(--sans); }
+
+  .img-slot--wide { aspect-ratio: 16/9; margin: 36px 0; }
+  .img-slot--short { aspect-ratio: 21/9; margin: 32px 0; }
+  .img-slot--tall { aspect-ratio: 4/3; margin: 32px 0; }
+  .img-pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 32px 0;
+  }
+  .img-pair .img-slot { aspect-ratio: 4/3; margin: 0; }
+
+  /* ─── MORE WORK ─────────────────────────────────────── */
+  .more-work {
+    border-top: 1px solid var(--faint);
+    padding: 64px var(--pad);
+  }
+  .more-work-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 28px;
+  }
+  .more-work-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  .proj-card {
+    display: block;
+    text-decoration: none;
+    color: var(--ink);
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,.08);
+    aspect-ratio: 4/3;
+    position: relative;
+    transition: transform .2s ease, border-color .2s ease;
+  }
+  .proj-card:hover { transform: translateY(-2px); border-color: rgba(255,255,255,.18); }
+  .proj-card-top { padding: 26px 26px 0; }
+  .proj-card-meta { font-family: var(--mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: rgba(255,255,255,.5); margin-bottom: 10px; }
+  .proj-card-title { font-family: var(--serif); font-weight: 400; font-size: 20px; line-height: 1.2; letter-spacing: -.01em; color: #fff; max-width: 86%; }
+  .proj-card-sub { font-size: 12px; color: rgba(255,255,255,.6); margin-top: 7px; }
+  .proj-card-foot {
+    position: absolute;
+    left: 26px; bottom: 20px; right: 26px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: rgba(255,255,255,.55);
+  }
+  .proj-card-foot .open { color: #fff; }
+  .proj-card-device {
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    height: 52%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding: 0 26px;
+  }
+
+  /* ─── FOOTER ─────────────────────────────────────────── */
+  .cs-foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 36px var(--pad);
+    border-top: 1px solid var(--faint);
+  }
+  .cs-foot a { font-family: var(--mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); text-decoration: none; }
+  .cs-foot a:hover { color: var(--ink); }
+
+  /* ─── RESPONSIVE ─────────────────────────────────────── */
+  @media (max-width: 860px) {
+    :root { --pad: 36px; }
+    .metrics { grid-template-columns: 1fr 1fr; }
+    .pathway { grid-template-columns: 1fr 1fr; }
+    .approach-grid { grid-template-columns: 1fr; }
+    .meta-strip { grid-template-columns: 1fr 1fr; }
+    .more-work-grid { grid-template-columns: 1fr; }
+    .cover { aspect-ratio: 16/9; flex-direction: column; padding: 28px var(--pad); }
+    .cover-browser { max-width: 100%; width: 100%; }
+    .cover-stats { max-width: 100%; width: 100%; flex-direction: row; }
+    .c-stat { flex: 1; }
+    .dt-head, .dt-row { grid-template-columns: 1.5fr 2.5fr 1fr; }
+  }
+
+  @media (max-width: 560px) {
+    :root { --pad: 20px; }
+    .metrics { grid-template-columns: 1fr 1fr; }
+    .metric .num { font-size: 32px; }
+    .pathway { grid-template-columns: 1fr; }
+    .cover { display: none; }
+    .cover-mobile { display: flex; flex-direction: column; gap: 20px; }
+    .img-pair { grid-template-columns: 1fr; }
+    .rca-item { grid-template-columns: 60px 1fr; }
+    .ps-row { grid-template-columns: 28px 1fr; }
+    .ps-weeks { display: none; }
+    .dt-head .desc, .dt-row .desc { display: none; }
+    .dt-head, .dt-row { grid-template-columns: 1.5fr 1fr; }
+    .more-work-grid { grid-template-columns: 1fr; }
+    .cs-nav { padding: 20px var(--pad); }
+    .hero { padding: 48px var(--pad) 40px; }
+    .meta-strip { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ─── NAV ─────────────────────────────────────────────── -->
+<nav class="cs-nav">
+  <a class="cs-nav-home" href="index.html">← Akintayo Olushola</a>
+  <a class="cs-nav-next" href="switchcore-case-study.html">Next project ↗</a>
+</nav>
+
+<!-- ─── HERO ─────────────────────────────────────────────── -->
+<div class="hero">
+  <div class="hero-eyebrow">01 / Case Study · Verve by Interswitch · 2024</div>
+  <h1>Achieving a singular visual identity across Verve's digital ecosystem</h1>
+  <div class="tags">
+    <span class="tag">Visual Identity</span>
+    <span class="tag">Design Systems</span>
+    <span class="tag">0 → 1</span>
+    <span class="tag">Team Leadership</span>
+    <span class="tag">Product Design</span>
+    <span class="tag">Research</span>
+    <span class="tag">FinTech</span>
+  </div>
+  <div class="meta-strip">
+    <div class="meta-cell"><div class="mk">Timeline</div><div class="mv">6 months · 2024</div></div>
+    <div class="meta-cell"><div class="mk">Team</div><div class="mv">1 Lead + 5 Designers</div></div>
+    <div class="meta-cell"><div class="mk">Tools</div><div class="mv">Figma · FigJam · Miro · Notion · MS Clarity</div></div>
+    <div class="meta-cell"><div class="mk">Role</div><div class="mv">Product Design Lead · Strategy · Identity</div></div>
+  </div>
+</div>
+
+<!-- ─── COVER ─────────────────────────────────────────────── -->
+<div class="cover">
+  <div class="cover-browser">
+    <div class="browser-bar">
+      <span class="dot" style="background:#ff5f56"></span>
+      <span class="dot" style="background:#ffbd2e"></span>
+      <span class="dot" style="background:#27c93f"></span>
+      <div class="url-bar">verveafrica.com</div>
+    </div>
+    <div class="browser-content">
+      <div class="bc-hero-strip">
+        <div class="logo-mark"></div>
+        <div class="logo-text"></div>
+        <div class="cta"></div>
+      </div>
+      <div class="bc-row">
+        <div class="bc-card"></div>
+        <div class="bc-card"></div>
+        <div class="bc-card"></div>
+      </div>
+      <div class="bc-row">
+        <div class="bc-card" style="height:28px"></div>
+        <div class="bc-card" style="height:28px"></div>
+      </div>
+    </div>
+  </div>
+  <div class="cover-stats">
+    <div class="c-stat">
+      <div class="n">36M+</div>
+      <div class="d">active cardholders</div>
+    </div>
+    <div class="c-stat">
+      <div class="n">6</div>
+      <div class="d">products unified</div>
+    </div>
+    <div class="c-stat">
+      <div class="n">73%</div>
+      <div class="d">couldn't identify as same brand — before</div>
+    </div>
+  </div>
+</div>
+
+<!-- Mobile cover fallback -->
+<div class="cover-mobile">
+  <div class="cover-mobile-stats">
+    <div class="cms"><div class="n">36M+</div><div class="l">Cardholders</div></div>
+    <div class="cms"><div class="n">6</div><div class="l">Products</div></div>
+    <div class="cms"><div class="n">73%</div><div class="l">Brand confusion</div></div>
+  </div>
+</div>
+
+<!-- ─── BODY ─────────────────────────────────────────────── -->
+<div class="body">
+
+  <!-- SUMMARY -->
+  <div class="section" style="border-top:none;padding-top:56px">
+    <div class="sec-label">Overview</div>
+    <h2>Summary</h2>
+    <p class="prose">
+      I led a team of five designers to unify Verve's six independently-built digital products under a single visual identity system — using the <strong>Aesthetic Usability Effect</strong> as a strategic framework to solve a measurable trust deficit across the entire product ecosystem.
+    </p>
+    <p class="prose">
+      Six products. No shared design language. A brand that users couldn't consistently recognise. The work covered a full discovery and audit phase, root cause analysis, identity definition, a ground-up design system, and parallel redesigns of all six products — from the consumer website to the internal agent banking platform.
+    </p>
+
+    <div class="metrics">
+      <div class="metric">
+        <div class="num">73%</div>
+        <div class="lbl"><strong>Brand recognition failure</strong> — merchant users shown the portal and website side-by-side couldn't identify them as the same brand. Pre-project finding, n=18.</div>
+      </div>
+      <div class="metric">
+        <div class="num">4.2×</div>
+        <div class="lbl"><strong>More support tickets</strong> generated by navigation confusion and UI inconsistency than by actual product errors. 3-month support ticket analysis.</div>
+      </div>
+      <div class="metric">
+        <div class="num">0.17%</div>
+        <div class="lbl"><strong>Cross-product engagement</strong> — almost no users moved between Verve products in the same session. MS Clarity, 3-month period.</div>
+      </div>
+      <div class="metric">
+        <div class="num">6</div>
+        <div class="lbl"><strong>Digital products</strong> — zero shared component definitions before this project. Complete design debt across the entire ecosystem.</div>
+      </div>
+    </div>
+
+    <!-- IMAGE: Cover hero — before/after or brand reveal -->
+    <div class="img-slot img-slot--wide">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+      <span class="slot-label">Image — Hero visual / before-after brand reveal</span>
+      <span class="slot-caption">Recommended: 1600 × 900px · PNG or WebP</span>
+    </div>
+  </div>
+
+  <!-- CONTEXT -->
+  <div class="section">
+    <div class="sec-label">Context</div>
+    <h2>Africa's largest domestic payment card — six products, no shared identity</h2>
+    <p class="prose">
+      Verve is Interswitch Group's flagship payment card — Africa's most widely used domestic card with over <strong>36 million active cardholders</strong>. Since launch, Verve had grown from a single payment card into a multi-product digital ecosystem.
+    </p>
+    <p class="prose">
+      But unlike the card itself — which had a singular, clear purpose — the digital products around it had grown independently, shaped by different teams, different timelines, and different constraints. When features couldn't fit into existing products, new ones were created instead. The result was six products that worked, but didn't belong together.
+    </p>
+
+    <div class="products-table">
+      <div class="pt-row"><span class="name">verveafrica.com — Website</span><span class="badge consumer">Consumer</span></div>
+      <div class="pt-row"><span class="name">Merchant Portal</span><span class="badge">Internal</span></div>
+      <div class="pt-row"><span class="name">Agent Banking Platform</span><span class="badge">Internal</span></div>
+      <div class="pt-row"><span class="name">Card Management Dashboard</span><span class="badge">Internal</span></div>
+      <div class="pt-row"><span class="name">Internal Operations Tool</span><span class="badge">Internal</span></div>
+      <div class="pt-row"><span class="name">Verve Mobile App</span><span class="badge consumer">Consumer</span></div>
+    </div>
+
+    <!-- IMAGE: ecosystem overview — 6 products side by side -->
+    <div class="img-slot img-slot--short">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+      <span class="slot-label">Image — 6 products before unification</span>
+      <span class="slot-caption">Side-by-side screenshots showing visual fragmentation · 2400 × 1000px</span>
+    </div>
+  </div>
+
+  <!-- RESEARCH -->
+  <div class="section">
+    <div class="sec-label">Discovery</div>
+    <h2>Starting with the data</h2>
+    <p class="prose">
+      Before defining any design direction, I needed to establish a quantified baseline. I began with a full product audit across all six digital products, supplemented by <strong>behavioural data from Microsoft Clarity</strong>, user interviews with <strong>18 participants</strong> across consumer, merchant, and agent segments, and an internal survey of the engineering and customer support teams.
+    </p>
+
+    <div class="data-table">
+      <div class="dt-head">
+        <span>Signal</span>
+        <span class="desc">Description</span>
+        <span style="text-align:right">Value</span>
+      </div>
+      <div class="dt-row">
+        <span class="signal">Monthly sessions</span>
+        <span class="desc">Unique sessions across the merchant portal per month</span>
+        <span class="val">284,400</span>
+      </div>
+      <div class="dt-row">
+        <span class="signal">Exit rate on landing</span>
+        <span class="desc">Sessions ending on first page without any meaningful interaction</span>
+        <span class="val">61%</span>
+      </div>
+      <div class="dt-row">
+        <span class="signal">Navigation rage clicks</span>
+        <span class="desc">Instances of users clicking UI elements that didn't respond as expected</span>
+        <span class="val">8,320/mo</span>
+      </div>
+      <div class="dt-row">
+        <span class="signal">Avg. session duration</span>
+        <span class="desc">Average time per session — below expected for a task-based product</span>
+        <span class="val">1m 42s</span>
+      </div>
+      <div class="dt-row">
+        <span class="signal">Cross-product navigation</span>
+        <span class="desc">Sessions where users moved to or from another Verve product</span>
+        <span class="val">0.17%</span>
+      </div>
+    </div>
+
+    <div class="callout">
+      <p>"I thought the merchant portal and the Verve website were two different companies. I only realised they were both Verve when I saw the card logo in the corner."</p>
+      <cite>— Merchant interview participant, Lagos. Verve POS user, 2+ years.</cite>
+    </div>
+
+    <!-- IMAGE: Research artifacts — interviews, Clarity data, persona -->
+    <div class="img-pair">
+      <div class="img-slot">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <span class="slot-label">Image — Interview notes / affinity map</span>
+        <span class="slot-caption">Research synthesis artifacts</span>
+      </div>
+      <div class="img-slot">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+        <span class="slot-label">Image — User persona</span>
+        <span class="slot-caption">Primary persona created from research data</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ROOT CAUSE -->
+  <div class="section">
+    <div class="sec-label">Root Cause Analysis</div>
+    <h2>What was actually causing the trust gap?</h2>
+    <p class="prose">
+      After synthesising data from the audit, Clarity analysis, user interviews, and stakeholder sessions, I ran a structured root cause analysis to move from symptoms to structural cause. The data pointed at a surface-level problem — poor user experience — but there was something deeper underneath.
+    </p>
+    <p class="prose">
+      Session recordings and interview data indicated that users weren't confused by individual features — they were confused by the <strong>product landscape itself.</strong> Every product looked and felt like it came from a different company. The fragmentation wasn't a feature problem. It was a systemic design identity failure.
+    </p>
+
+    <div class="rca-chain">
+      <div class="rca-item">
+        <div class="rca-tag">Symptom</div>
+        <div class="rca-text"><strong>Low cross-product trust.</strong> Users don't feel the products belong to one brand they can rely on.</div>
+      </div>
+      <div class="rca-arrow">↓</div>
+      <div class="rca-item">
+        <div class="rca-tag">Caused by</div>
+        <div class="rca-text"><strong>Perceived quality inconsistency.</strong> Each product looks different — some polished, some not. Signals unreliability before a single task begins.</div>
+      </div>
+      <div class="rca-arrow">↓</div>
+      <div class="rca-item">
+        <div class="rca-tag">Caused by</div>
+        <div class="rca-text"><strong>No shared visual language.</strong> Different type scales, colour values, spacing systems, and UI patterns across all 6 products.</div>
+      </div>
+      <div class="rca-arrow">↓</div>
+      <div class="rca-item root">
+        <div class="rca-tag">Root cause</div>
+        <div class="rca-text"><strong>No centralised design identity system.</strong> Products were built independently with no shared foundations, guidelines, or component library. Every team made reasonable local decisions. Those decisions accumulated into a globally incoherent experience.</div>
+      </div>
+    </div>
+
+    <p class="prose" style="margin-top: 24px;">
+      The fix wasn't cosmetic — it required building a design system from scratch and applying it across every product simultaneously, under a single coordinated design direction.
+    </p>
+  </div>
+
+  <!-- STRATEGY -->
+  <div class="section">
+    <div class="sec-label">Strategic Framework</div>
+    <h2>Rebuilding trust through design — the Aesthetic Usability Effect</h2>
+    <p class="prose">
+      With the root cause identified, I anchored the strategy in the <strong>Aesthetic Usability Effect</strong> — the well-documented principle that users perceive more aesthetically pleasing interfaces as easier to use and more trustworthy, even before interacting with them. First described by Kurosu and Kashimura (1995).
+    </p>
+    <p class="prose">
+      In fintech, user trust <em>is</em> the primary product. The research showed clearly that visual quality was directly influencing how users perceived reliability. Treating visual quality as a <strong>trust infrastructure decision</strong> — not a cosmetic one — was what allowed me to align stakeholders on investing time in design system and identity work before any screens were redesigned.
+    </p>
+
+    <div class="callout">
+      <p>"Users perceive more aesthetically pleasing designs as easier to use — even before they've completed a single interaction with them."</p>
+      <cite>— Kurosu, M. & Kashimura, K. (1995). Apparent Usability vs. Inherent Usability. CHI '95 Conference Companion.</cite>
+    </div>
+
+    <p class="prose">I mapped the user's journey through Verve's ecosystem into four stages, and defined a design strategy for each that would leverage the Aesthetic Usability Effect at every touchpoint.</p>
+
+    <div class="pathway">
+      <div class="pw-step">
+        <div class="pw-num">01</div>
+        <div class="pw-stage">Exposed</div>
+        <div class="pw-title">First encounter</div>
+        <div class="pw-desc">User first encounters any Verve product. Focus: brand presence — the first impression has to signal quality before any task begins.</div>
+      </div>
+      <div class="pw-step">
+        <div class="pw-num">02</div>
+        <div class="pw-stage">Perceives</div>
+        <div class="pw-title">Forms impression</div>
+        <div class="pw-desc">User judges the product's quality and competence in milliseconds. Focus: visual quality — typographic rigour, colour coherence, spatial rhythm.</div>
+      </div>
+      <div class="pw-step">
+        <div class="pw-num">03</div>
+        <div class="pw-stage">Trusts</div>
+        <div class="pw-title">Decides to engage</div>
+        <div class="pw-desc">Visual coherence across all touchpoints reinforces the decision to engage deeply. Focus: consistency — same system, every product.</div>
+      </div>
+      <div class="pw-step">
+        <div class="pw-num">04</div>
+        <div class="pw-stage">Returns</div>
+        <div class="pw-title">Adopts habitually</div>
+        <div class="pw-desc">User adopts Verve's products as a regular part of their financial workflow. Focus: memorability — a visual language strong enough to anchor recall.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRINCIPLES -->
+  <div class="section">
+    <div class="sec-label">Design Principles</div>
+    <h2>The principles that guided every decision</h2>
+    <p class="prose">
+      After synthesising the research and discovery phase, I extracted five design principles — shared with, critiqued by, and agreed upon by the full design team and key stakeholders before a single pixel of the new identity was created.
+    </p>
+
+    <div class="principles">
+      <div class="principle">
+        <div class="icon">◈</div>
+        <div class="text">
+          <div class="pname">One Source of Truth</div>
+          <div class="pdesc">Every product in the ecosystem must pull from a single, centralised design token library and component system. No local overrides, no ad-hoc decisions. Consistency comes from having one shared foundation, not from reviewing work at the end.</div>
+        </div>
+      </div>
+      <div class="principle">
+        <div class="icon">✦</div>
+        <div class="text">
+          <div class="pname">Aesthetics as Usability</div>
+          <div class="pdesc">Visual quality is a functional requirement, not a final-mile consideration. A polished interface reduces cognitive load, signals reliability, and lowers the threshold for user trust — especially in financial contexts where trust is the product.</div>
+        </div>
+      </div>
+      <div class="principle">
+        <div class="icon">◆</div>
+        <div class="text">
+          <div class="pname">Distinctly Verve</div>
+          <div class="pdesc">The new visual identity must be unmistakably Verve — not a generic fintech aesthetic, not a Visa or Mastercard imitation. Africa's leading domestic card deserves a visual language that is confident, modern, and rooted in its own story.</div>
+        </div>
+      </div>
+      <div class="principle">
+        <div class="icon">⬡</div>
+        <div class="text">
+          <div class="pname">Scalable by Default</div>
+          <div class="pdesc">The design system must accommodate products and features that don't exist yet. Every component, token, and pattern should be designed with extensibility in mind — so that the next product built on Verve's stack inherits the identity automatically.</div>
+        </div>
+      </div>
+      <div class="principle">
+        <div class="icon">◉</div>
+        <div class="text">
+          <div class="pname">Trust Through Consistency</div>
+          <div class="pdesc">Every visual inconsistency — a different button radius, an off-brand colour, a mismatched typeface — is a micro-signal of unreliability. Across 6 products and millions of touchpoints, those signals compound. Uniformity builds confidence; deviation destroys it.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROCESS -->
+  <div class="section">
+    <div class="sec-label">Process</div>
+    <h2>How we executed it — 6 months, 5 stages</h2>
+    <p class="prose">
+      As design lead, I managed the end-to-end design process from planning to delivery: establishing a systematic design approach, laying high-level design foundations, setting guidelines, reviewing work, managing stakeholders, and designing hands-on across all six products.
+    </p>
+
+    <div class="process-steps">
+      <div class="ps-row">
+        <div class="ps-num">1</div>
+        <div class="ps-content">
+          <div class="ps-title">Discovery & Audit</div>
+          <div class="ps-desc">Audited all 6 products screen-by-screen. Conducted user interviews, heuristic evaluations, and stakeholder workshops to establish a clear baseline and build shared understanding of the problem.</div>
+        </div>
+        <div class="ps-weeks">Weeks 1–5</div>
+      </div>
+      <div class="ps-row">
+        <div class="ps-num">2</div>
+        <div class="ps-content">
+          <div class="ps-title">Identity Foundation</div>
+          <div class="ps-desc">Defined the core visual identity — colour system, typography, logo direction, spacing scale, and tone of voice. This became the non-negotiable north star that all six product workstreams would build from.</div>
+        </div>
+        <div class="ps-weeks">Weeks 6–10</div>
+      </div>
+      <div class="ps-row">
+        <div class="ps-num">3</div>
+        <div class="ps-content">
+          <div class="ps-title">Design System Build</div>
+          <div class="ps-desc">Built the component library from the identity up: design tokens, primitives, patterns, and documentation. One source of truth for every product in the ecosystem, now and in the future.</div>
+        </div>
+        <div class="ps-weeks">Weeks 8–16</div>
+      </div>
+      <div class="ps-row">
+        <div class="ps-num">4</div>
+        <div class="ps-content">
+          <div class="ps-title">Product Execution</div>
+          <div class="ps-desc">Redesigned all 6 products in parallel. Each designer owned their workstream, with weekly design crits and cross-product reviews to maintain visual coherence across the full ecosystem.</div>
+        </div>
+        <div class="ps-weeks">Weeks 12–22</div>
+      </div>
+      <div class="ps-row">
+        <div class="ps-num">5</div>
+        <div class="ps-content">
+          <div class="ps-title">QA & Handoff</div>
+          <div class="ps-desc">Conducted cross-functional reviews, created full engineering handoff documentation, and established guidelines to ensure the system survived contact with development and became the permanent design standard.</div>
+        </div>
+        <div class="ps-weeks">Weeks 20–24</div>
+      </div>
+    </div>
+
+    <!-- IMAGE: Process artifacts — FigJam, design tokens, component library -->
+    <div class="img-slot img-slot--wide">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"/><path d="M7 7h.01"/></svg>
+      <span class="slot-label">Image — Design system / token architecture</span>
+      <span class="slot-caption">Figma token library, primitive to component · 1600 × 900px</span>
+    </div>
+  </div>
+
+  <!-- IDENTITY -->
+  <div class="section">
+    <div class="sec-label">Visual Identity</div>
+    <h2>Building a language that is unmistakably Verve</h2>
+    <p class="prose">
+      The identity work started with the core questions: what does Verve stand for visually, and how do we express that in a way that's distinctly African, distinctly fintech, and scalable across six different product contexts?
+    </p>
+    <p class="prose">
+      The resulting system established a <strong>three-tier token architecture</strong> — Primitives, Semantic, and Component tokens — 89 variables across five collections, a defined type scale, effect styles, and a unified colour palette that could flex across both consumer-facing and internal tooling contexts without losing brand coherence.
+    </p>
+
+    <!-- IMAGE: Colour system / type scale -->
+    <div class="img-pair">
+      <div class="img-slot">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        <span class="slot-label">Image — Colour system</span>
+        <span class="slot-caption">Primitive palette + semantic token mapping</span>
+      </div>
+      <div class="img-slot">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" x2="15" y1="20" y2="20"/><line x1="12" x2="12" y1="4" y2="20"/></svg>
+        <span class="slot-label">Image — Typography scale</span>
+        <span class="slot-caption">Type system — display to caption</span>
+      </div>
+    </div>
+
+    <!-- IMAGE: Component library -->
+    <div class="img-slot img-slot--wide">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+      <span class="slot-label">Image — Component library overview</span>
+      <span class="slot-caption">Button, Card, Badge, Toast, Accordion, Avatar · 1600 × 900px</span>
+    </div>
+  </div>
+
+  <!-- PRODUCT EXECUTION -->
+  <div class="section">
+    <div class="sec-label">Product Execution</div>
+    <h2>Redesigning all six products — in parallel</h2>
+    <p class="prose">
+      Each of the five designers owned a product workstream. My role was to design the consumer website and mobile app directly, set the visual standard for all workstreams, run weekly design crits, and make calls when there was tension between local product logic and the shared system.
+    </p>
+    <p class="prose">
+      The non-negotiables: every product used the same token library, the same component set, and the same spacing scale. Local decisions within that framework were permitted; local overrides of the foundational layer were not.
+    </p>
+
+    <!-- IMAGE: verveafrica.com redesign -->
+    <div class="img-slot img-slot--wide">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+      <span class="slot-label">Image — verveafrica.com redesign</span>
+      <span class="slot-caption">Homepage · desktop + mobile · 1600 × 900px</span>
+    </div>
+
+    <!-- IMAGE: Merchant portal + Agent banking -->
+    <div class="img-pair">
+      <div class="img-slot">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+        <span class="slot-label">Image — Merchant portal</span>
+        <span class="slot-caption">Dashboard + transaction view</span>
+      </div>
+      <div class="img-slot">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+        <span class="slot-label">Image — Agent banking platform</span>
+        <span class="slot-caption">Agent onboarding + operations view</span>
+      </div>
+    </div>
+
+    <!-- IMAGE: Mobile app -->
+    <div class="img-slot img-slot--wide">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg>
+      <span class="slot-label">Image — Verve mobile app redesign</span>
+      <span class="slot-caption">Key screens — home, payments, card management · 1600 × 900px</span>
+    </div>
+  </div>
+
+  <!-- OUTCOMES -->
+  <div class="section">
+    <div class="sec-label">Outcomes</div>
+    <h2>Before and after — what shifted</h2>
+    <p class="prose">
+      The 6-month project delivered a fully unified Verve ecosystem for the first time since the brand's inception. All six products launched with a shared visual identity, a single token-based design system, and consistent component usage across every touchpoint.
+    </p>
+    <p class="prose">
+      The <strong>73% brand confusion rate</strong> among merchant users — the problem that had catalysed the project — was eliminated as a structural issue. Users could now recognise every Verve product as part of the same family from the first screen, before completing a single task.
+    </p>
+    <p class="prose">
+      The <strong>4.2× support ticket ratio</strong> from navigation confusion dropped significantly in the post-launch monitoring period, as the consistent navigation structure and predictable UI patterns reduced the incidence of UI-driven errors.
+    </p>
+
+    <div class="callout">
+      <p>"This is the first time I've looked at our merchant portal and the website and thought — yes, that's the same company."</p>
+      <cite>— Internal stakeholder review, Interswitch Group, 2024.</cite>
+    </div>
+
+    <!-- IMAGE: Before / after side by side -->
+    <div class="img-slot img-slot--wide">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+      <span class="slot-label">Image — Before &amp; after comparison</span>
+      <span class="slot-caption">Any product — old vs new side by side · 1600 × 900px</span>
+    </div>
+  </div>
+
+</div><!-- /body -->
+
+<!-- ─── MORE WORK ─────────────────────────────────────────── -->
+<section class="more-work">
+  <div class="more-work-label">More work</div>
+  <div class="more-work-grid">
+
+    <!-- Switch Core 2.0 -->
+    <a href="switchcore-case-study.html" class="proj-card" style="background:#2a2cc2">
+      <div class="proj-card-top">
+        <div class="proj-card-meta">02 / Case study</div>
+        <div class="proj-card-title">Switch Core 2.0</div>
+        <div class="proj-card-sub">A multi-brand design system</div>
+      </div>
+      <div class="proj-card-device">
+        <div style="width:148px;max-width:52%;aspect-ratio:9/16;background:#1a1c8a;border-radius:12px 12px 0 0;padding:8px;box-shadow:0 0 0 2px rgba(0,0,0,.4)">
+          <div style="width:30px;height:3px;background:rgba(255,255,255,.3);border-radius:2px;margin:0 auto 8px"></div>
+          <div style="width:100%;height:calc(100% - 14px);background:#1a1d7c;border-radius:7px;position:relative;overflow:hidden">
+            <span style="position:absolute;left:9px;top:12px;width:65%;height:7px;background:rgba(255,255,255,.25);border-radius:2px;display:block"></span>
+            <span style="position:absolute;left:9px;top:27px;width:45%;height:5px;background:rgba(255,255,255,.14);border-radius:2px;display:block"></span>
+            <span style="position:absolute;left:9px;right:9px;top:50px;height:52px;background:rgba(255,255,255,.08);border-radius:5px;display:block"></span>
+          </div>
+        </div>
+      </div>
+      <div class="proj-card-foot">
+        <span>Interswitch · Design system</span>
+        <span class="open">↗ Open case</span>
+      </div>
+    </a>
+
+    <!-- Omniretail -->
+    <a href="omniretail-case-study.html" class="proj-card" style="background:#5b4230">
+      <div class="proj-card-top">
+        <div class="proj-card-meta">03 / Case study</div>
+        <div class="proj-card-title">Manufacturer Operating System</div>
+        <div class="proj-card-sub">Omniretail — Manufacturers &amp; Distributors</div>
+      </div>
+      <div class="proj-card-device">
+        <div style="display:flex;gap:8px;align-items:flex-end;justify-content:center;width:100%">
+          <div style="width:36%;max-width:120px;aspect-ratio:9/16;background:#3a2a1a;border-radius:12px 12px 0 0;padding:7px">
+            <div style="width:26px;height:3px;background:rgba(255,255,255,.3);border-radius:2px;margin:0 auto 7px"></div>
+            <div style="width:100%;height:calc(100% - 13px);background:#5a3e28;border-radius:7px;position:relative;overflow:hidden">
+              <span style="position:absolute;left:7px;top:10px;width:60%;height:7px;background:rgba(255,255,255,.25);border-radius:2px;display:block"></span>
+              <span style="position:absolute;left:7px;right:7px;top:26px;height:44px;background:rgba(255,255,255,.1);border-radius:4px;display:block"></span>
+            </div>
+          </div>
+          <div style="width:36%;max-width:120px;aspect-ratio:9/16;background:#4a3520;border-radius:12px 12px 0 0;padding:7px;margin-bottom:16px">
+            <div style="width:26px;height:3px;background:rgba(255,255,255,.3);border-radius:2px;margin:0 auto 7px"></div>
+            <div style="width:100%;height:calc(100% - 13px);background:#6b4a33;border-radius:7px;position:relative;overflow:hidden">
+              <span style="position:absolute;left:7px;top:10px;width:60%;height:7px;background:rgba(255,255,255,.25);border-radius:2px;display:block"></span>
+              <span style="position:absolute;left:7px;right:7px;top:26px;height:44px;background:rgba(255,255,255,.1);border-radius:4px;display:block"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="proj-card-foot">
+        <span>0-1 · Supply chain SaaS</span>
+        <span class="open">↗ Open case</span>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- ─── FOOTER ─────────────────────────────────────────────── -->
+<footer class="cs-foot">
+  <a href="index.html">← All projects</a>
+  <a href="mailto:tolushola11@gmail.com">tolushola11@gmail.com</a>
+</footer>
+
+</body>
+</html>

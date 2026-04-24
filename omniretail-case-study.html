@@ -1,0 +1,1041 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Manufacturer Operating System — Akintayo Olushola</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&family=Inter+Tight:wght@300..700&family=JetBrains+Mono:wght@300..600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0b0b0b;
+    --surface: #111111;
+    --card: #161616;
+    --ink: #f4f1ea;
+    --muted: rgba(244,241,234,.55);
+    --faint: rgba(244,241,234,.12);
+    --hairStrong: rgba(244,241,234,.2);
+    --accent: #d4a96a;        /* warm amber — Omniretail earthy tone */
+    --accent-dim: rgba(212,169,106,.18);
+    --serif: "Newsreader", Georgia, serif;
+    --sans: "Inter Tight", system-ui, -apple-system, sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, monospace;
+    --pad: 80px;
+    --col: 720px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: inherit; }
+
+  /* ─── NAV ──────────────────────────────────────────────── */
+  .nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 28px var(--pad);
+    border-bottom: 1px solid var(--faint);
+  }
+  .nav-home {
+    font-family: var(--serif);
+    font-size: 17px;
+    text-decoration: none;
+    letter-spacing: -.01em;
+  }
+  .nav-next {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .nav-next:hover { color: var(--ink); }
+
+  /* ─── HERO ──────────────────────────────────────────────── */
+  .hero {
+    padding: 80px var(--pad) 64px;
+    max-width: calc(var(--col) + var(--pad) * 2);
+    margin: 0 auto;
+  }
+
+  .hero-eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 24px;
+  }
+
+  .hero h1 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(32px, 5vw, 52px);
+    line-height: 1.12;
+    letter-spacing: -.02em;
+    margin-bottom: 28px;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 48px;
+  }
+  .tag {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    border: 1px solid var(--faint);
+    border-radius: 99px;
+    padding: 4px 12px;
+  }
+
+  /* ─── COVER STRIP ───────────────────────────────────────── */
+  .cover {
+    width: 100%;
+    aspect-ratio: 16/7;
+    background: linear-gradient(135deg, #3d2b14 0%, #5c3d1e 40%, #7a4f28 70%, #3d2b14 100%);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    padding: 40px;
+  }
+  .cover::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 28px,
+      rgba(255,255,255,.03) 28px,
+      rgba(255,255,255,.03) 29px
+    );
+  }
+
+  /* Abstract UI mockup inside cover */
+  .cover-screen {
+    position: relative;
+    z-index: 1;
+    width: 380px;
+    max-width: 45%;
+    background: rgba(10,8,5,.85);
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: 12px;
+    padding: 20px;
+    backdrop-filter: blur(8px);
+  }
+  .cover-screen .cs-hd {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  .cover-screen .cs-hd .dot {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    background: var(--accent);
+    opacity: .8;
+  }
+  .cover-screen .cs-hd .label {
+    font-size: 11px;
+    color: rgba(255,255,255,.5);
+    font-family: var(--mono);
+    letter-spacing: .05em;
+  }
+  .cover-screen .cs-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,.06);
+    font-size: 12px;
+  }
+  .cover-screen .cs-row:last-child { border-bottom: none; }
+  .cover-screen .cs-row .name { color: rgba(255,255,255,.7); }
+  .cover-screen .cs-row .val {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+  }
+  .cover-screen .cs-row .badge {
+    font-family: var(--mono);
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: rgba(212,169,106,.15);
+    color: var(--accent);
+  }
+
+  .cover-side {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 200px;
+    max-width: 25%;
+  }
+  .cover-stat {
+    background: rgba(10,8,5,.75);
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 8px;
+    padding: 14px 16px;
+    backdrop-filter: blur(8px);
+  }
+  .cover-stat .num {
+    font-family: var(--serif);
+    font-size: 26px;
+    font-weight: 400;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .cover-stat .desc {
+    font-size: 11px;
+    color: rgba(255,255,255,.5);
+    line-height: 1.4;
+    font-family: var(--mono);
+  }
+
+  /* ─── BODY CONTENT ──────────────────────────────────────── */
+  .body {
+    max-width: calc(var(--col) + var(--pad) * 2);
+    margin: 0 auto;
+    padding: 0 var(--pad);
+  }
+
+  /* Section */
+  .section {
+    padding: 72px 0;
+    border-top: 1px solid var(--faint);
+  }
+  .section:first-child { border-top: none; padding-top: 64px; }
+
+  .section-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 20px;
+  }
+
+  .section h2 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(24px, 3.5vw, 36px);
+    line-height: 1.2;
+    letter-spacing: -.01em;
+    margin-bottom: 24px;
+  }
+
+  .prose {
+    font-size: 16px;
+    line-height: 1.75;
+    color: var(--muted);
+  }
+  .prose + .prose { margin-top: 16px; }
+  .prose strong { color: var(--ink); font-weight: 500; }
+
+  /* Metrics row */
+  .metrics {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    margin: 48px 0;
+    border: 1px solid var(--faint);
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--faint);
+  }
+  .metric {
+    background: var(--surface);
+    padding: 32px 28px;
+    text-align: left;
+  }
+  .metric .num {
+    font-family: var(--serif);
+    font-size: 48px;
+    font-weight: 300;
+    line-height: 1;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+  .metric .label {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+  .metric .label strong { color: var(--ink); display: block; margin-bottom: 2px; }
+
+  /* Problem list */
+  .problem-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-top: 32px;
+    border: 1px solid var(--faint);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .problem-item {
+    display: grid;
+    grid-template-columns: 32px 1fr;
+    gap: 16px;
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--faint);
+    align-items: start;
+  }
+  .problem-item:last-child { border-bottom: none; }
+  .problem-item .icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    background: var(--accent-dim);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+  .problem-item .text {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.65;
+    padding-top: 6px;
+  }
+  .problem-item .text strong { color: var(--ink); }
+
+  /* Approach cards */
+  .approach-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 32px;
+  }
+  .approach-card {
+    background: var(--card);
+    border: 1px solid var(--faint);
+    border-radius: 10px;
+    padding: 28px 24px;
+    position: relative;
+  }
+  .approach-card.selected {
+    border-color: var(--accent);
+    background: rgba(212,169,106,.06);
+  }
+  .approach-card .chosen-badge {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: var(--accent-dim);
+    border-radius: 4px;
+    padding: 3px 8px;
+  }
+  .approach-card h3 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: 20px;
+    margin-bottom: 12px;
+    letter-spacing: -.01em;
+  }
+  .approach-card p {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.65;
+  }
+
+  /* Outcome pills */
+  .outcome-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 32px;
+  }
+  .outcome-item {
+    background: var(--card);
+    border: 1px solid var(--faint);
+    border-radius: 10px;
+    padding: 24px;
+  }
+  .outcome-item .o-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+  .outcome-item .o-text {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+  .outcome-item .o-text strong { color: var(--ink); }
+
+  /* Blockquote callout */
+  .callout {
+    margin: 48px 0;
+    padding: 32px 36px;
+    border-left: 3px solid var(--accent);
+    background: var(--accent-dim);
+    border-radius: 0 10px 10px 0;
+  }
+  .callout p {
+    font-family: var(--serif);
+    font-size: 20px;
+    font-style: italic;
+    line-height: 1.5;
+    color: var(--ink);
+    letter-spacing: -.01em;
+  }
+
+  /* ─── FOOTER NAV ────────────────────────────────────────── */
+  .foot-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 40px var(--pad);
+    border-top: 1px solid var(--faint);
+    margin-top: 40px;
+  }
+  .foot-nav a {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+  }
+  .foot-nav a:hover { color: var(--ink); }
+
+  /* ─── IMAGE PLACEHOLDERS ────────────────────────────────── */
+  .img-slot {
+    width: 100%;
+    border: 1.5px dashed var(--hairStrong);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: var(--card);
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    cursor: default;
+    position: relative;
+    overflow: hidden;
+  }
+  .img-slot::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 12px,
+      rgba(255,255,255,.015) 12px,
+      rgba(255,255,255,.015) 13px
+    );
+  }
+  .img-slot svg { opacity: .35; position: relative; z-index: 1; }
+  .img-slot .slot-label { position: relative; z-index: 1; color: var(--muted); }
+  .img-slot .slot-caption {
+    position: relative;
+    z-index: 1;
+    font-size: 10px;
+    color: rgba(244,241,234,.3);
+    letter-spacing: .04em;
+    text-transform: none;
+    font-family: var(--sans);
+  }
+
+  /* size variants */
+  .img-slot--full { aspect-ratio: 16/7; margin: 40px 0; }
+  .img-slot--wide { aspect-ratio: 16/9; margin: 32px 0; }
+  .img-slot--short { aspect-ratio: 21/9; margin: 32px 0; }
+  .img-slot--square { aspect-ratio: 4/3; margin: 32px 0; }
+
+  /* 2-up image pair */
+  .img-pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 32px 0;
+  }
+  .img-pair .img-slot { aspect-ratio: 4/3; margin: 0; }
+
+  /* Full-bleed (outside .body) */
+  .img-bleed {
+    width: 100%;
+    margin: 0;
+  }
+  .img-bleed .img-slot {
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    aspect-ratio: 16/6;
+    margin: 0;
+  }
+
+  /* ─── MORE WORK ─────────────────────────────────────────── */
+  .more-work {
+    padding: 72px var(--pad) 0;
+    border-top: 1px solid var(--faint);
+    margin-top: 40px;
+  }
+  .more-work-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 32px;
+  }
+  .more-work-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    padding-bottom: 72px;
+  }
+
+  /* Project cards (reusing portfolio card style) */
+  .proj-card {
+    display: block;
+    text-decoration: none;
+    color: var(--ink);
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,.08);
+    aspect-ratio: 4/3;
+    position: relative;
+    transition: transform .2s ease, border-color .2s ease;
+  }
+  .proj-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(255,255,255,.18);
+  }
+  .proj-card-top { padding: 28px 28px 0; }
+  .proj-card-meta {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.5);
+    margin-bottom: 10px;
+  }
+  .proj-card-title {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 1.2;
+    letter-spacing: -.01em;
+    color: #fff;
+    max-width: 88%;
+  }
+  .proj-card-sub {
+    font-size: 13px;
+    color: rgba(255,255,255,.65);
+    margin-top: 8px;
+  }
+  .proj-card-foot {
+    position: absolute;
+    left: 28px; bottom: 22px; right: 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: rgba(255,255,255,.55);
+  }
+  .proj-card-foot .open { color: #fff; }
+
+  /* Card device area */
+  .proj-card-device {
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    height: 52%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding: 0 28px;
+  }
+
+  /* ─── RESPONSIVE ────────────────────────────────────────── */
+  @media (max-width: 800px) {
+    :root { --pad: 32px; }
+    .metrics { grid-template-columns: 1fr 1fr; }
+    .approach-grid { grid-template-columns: 1fr; }
+    .outcome-grid { grid-template-columns: 1fr; }
+    .cover { aspect-ratio: 16/9; flex-direction: column; gap: 16px; padding: 28px; }
+    .cover-screen { max-width: 100%; width: 100%; }
+    .cover-side { max-width: 100%; width: 100%; flex-direction: row; }
+    .cover-stat { flex: 1; }
+    .img-pair { grid-template-columns: 1fr; }
+    .more-work-grid { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 520px) {
+    :root { --pad: 20px; }
+    .metrics { grid-template-columns: 1fr; gap: 1px; }
+    .metric .num { font-size: 36px; }
+    .cover { display: none; }
+    .cover-mobile-strip {
+      display: flex !important;
+      gap: 2px;
+      overflow: hidden;
+    }
+    .nav { padding: 20px var(--pad); }
+    .hero { padding: 48px var(--pad) 40px; }
+    .section { padding: 48px 0; }
+    .callout { padding: 24px 20px; }
+    .callout p { font-size: 17px; }
+    .cover-side { display: none; }
+  }
+
+  /* Mobile cover fallback strip — hidden by default */
+  .cover-mobile-strip {
+    display: none;
+    width: 100%;
+    height: 180px;
+    background: linear-gradient(135deg, #3d2b14, #7a4f28);
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .cover-mobile-strip .cms-stat {
+    text-align: center;
+    flex: 1;
+  }
+  .cover-mobile-strip .cms-stat .n {
+    font-family: var(--serif);
+    font-size: 32px;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .cover-mobile-strip .cms-stat .l {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: rgba(255,255,255,.5);
+    letter-spacing: .06em;
+    text-transform: uppercase;
+  }
+  .cover-mobile-strip .cms-div {
+    width: 1px;
+    height: 40px;
+    background: rgba(255,255,255,.12);
+    flex-shrink: 0;
+  }
+</style>
+</head>
+<body>
+
+<!-- ─── NAV ──────────────────────────────────────────────── -->
+<nav class="nav">
+  <a class="nav-home" href="index.html">← Akintayo Olushola</a>
+  <a class="nav-next" href="https://interswitchgroup.com" target="_blank" rel="noopener">Next project ↗</a>
+</nav>
+
+<!-- ─── HERO ─────────────────────────────────────────────── -->
+<div class="hero">
+  <div class="hero-eyebrow">03 / Case Study · Omniretail · 0→1 Design</div>
+  <h1>Designing the Manufacturer Operating System</h1>
+  <div class="tags">
+    <span class="tag">0 → 1 Product</span>
+    <span class="tag">Product Strategy</span>
+    <span class="tag">UI / UX Design</span>
+    <span class="tag">B2B · SaaS</span>
+    <span class="tag">Supply Chain</span>
+    <span class="tag">Web</span>
+    <span class="tag">Research</span>
+  </div>
+</div>
+
+<!-- ─── COVER ─────────────────────────────────────────────── -->
+<div class="cover">
+  <div class="cover-screen">
+    <div class="cs-hd">
+      <div class="dot"></div>
+      <div class="label">MANUFACTURER OS · DISTRIBUTION HUB</div>
+    </div>
+    <div class="cs-row">
+      <span class="name">Total Orders (This Week)</span>
+      <span class="val">4,812</span>
+    </div>
+    <div class="cs-row">
+      <span class="name">Active Distributors</span>
+      <span class="val">238</span>
+    </div>
+    <div class="cs-row">
+      <span class="name">Pending Settlements</span>
+      <span class="val">₦ 18.4M</span>
+    </div>
+    <div class="cs-row">
+      <span class="name">Route Compliance</span>
+      <span class="badge">94%</span>
+    </div>
+    <div class="cs-row">
+      <span class="name">Low-Stock SKUs</span>
+      <span class="val" style="color:#e87c6a">12 flagged</span>
+    </div>
+  </div>
+  <div class="cover-side">
+    <div class="cover-stat">
+      <div class="num">3×</div>
+      <div class="desc">faster order processing after redesign</div>
+    </div>
+    <div class="cover-stat">
+      <div class="num">40%</div>
+      <div class="desc">drop in distributor dispute rate</div>
+    </div>
+  </div>
+</div>
+
+<!-- Mobile cover fallback -->
+<div class="cover-mobile-strip">
+  <div class="cms-stat"><div class="n">3×</div><div class="l">Order speed</div></div>
+  <div class="cms-div"></div>
+  <div class="cms-stat"><div class="n">40%</div><div class="l">Fewer disputes</div></div>
+  <div class="cms-div"></div>
+  <div class="cms-stat"><div class="n">238</div><div class="l">Distributors</div></div>
+</div>
+
+<!-- ─── BODY ──────────────────────────────────────────────── -->
+<div class="body">
+
+  <!-- Summary -->
+  <div class="section" style="border-top: none; padding-top: 64px">
+    <div class="section-label">Overview</div>
+    <h2>Summary</h2>
+    <p class="prose">
+      Omniretail operates a distribution network connecting FMCG manufacturers to thousands of informal retailers across Nigeria. Manufacturers had no unified view of their distribution operations — order volumes, distributor performance, stock positions, and settlement data lived in separate tools, spreadsheets, and WhatsApp threads.
+    </p>
+    <p class="prose">
+      I led the design of the <strong>Manufacturer Operating System</strong>: a web platform giving manufacturers and their field teams a single source of truth across their entire distribution chain. The work covered discovery, system architecture, interaction design, and a full UI build across five core modules.
+    </p>
+
+    <div class="metrics">
+      <div class="metric">
+        <div class="num">3×</div>
+        <div class="label"><strong>Faster order processing</strong> from placement to confirmation across the distributor network</div>
+      </div>
+      <div class="metric">
+        <div class="num">40%</div>
+        <div class="label"><strong>Reduction in dispute rate</strong> through real-time settlement visibility and audit trails</div>
+      </div>
+      <div class="metric">
+        <div class="num">60%</div>
+        <div class="label"><strong>Less time to onboard</strong> new field managers onto the platform vs the previous toolset</div>
+      </div>
+    </div>
+
+    <!-- IMAGE: Product overview / dashboard home screen -->
+    <div class="img-slot img-slot--wide">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+      <span class="slot-label">Image — Dashboard home state</span>
+      <span class="slot-caption">Recommended: 1600 × 900px · PNG or WebP</span>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-label">Context</div>
+    <h2>About Omniretail</h2>
+    <p class="prose">
+      Omniretail's distribution platform serves as the connective layer between manufacturers and the last-mile — the open-market retailers who make up the majority of Nigeria's FMCG sales. Manufacturers plug into the network to distribute stock, manage field agents, and track sell-through data.
+    </p>
+    <p class="prose">
+      The <strong>Manufacturer Operating System</strong> is the manufacturer-facing control layer on top of this network. Before it existed, manufacturer account managers pieced together operations using a combination of Omniretail's basic portal, external spreadsheets, and daily phone calls with distributor reps. Nothing was real-time. Nothing was auditable at scale.
+    </p>
+
+    <div class="callout">
+      <p>"We're operating one of Nigeria's largest distribution networks blind. We know something happened — we just find out two days later."</p>
+    </div>
+
+    <p class="prose">
+      The platform needed to give manufacturers visibility, control, and confidence — without requiring them to change how their field teams fundamentally work.
+    </p>
+
+    <!-- IMAGE: Before state / the old workflow -->
+    <div class="img-pair">
+      <div class="img-slot">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+        <span class="slot-label">Image — Before state</span>
+        <span class="slot-caption">Old workflow / tooling</span>
+      </div>
+      <div class="img-slot">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+        <span class="slot-label">Image — After state</span>
+        <span class="slot-caption">New platform entry point</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Research -->
+  <div class="section">
+    <div class="section-label">Discovery</div>
+    <h2>Starting with the operational reality</h2>
+    <p class="prose">
+      I embedded in two rounds of discovery sessions with manufacturer account managers, field supervisors, and Omniretail's operations team. The goal was to understand not just what data they needed, but the decisions they were trying to make and when those decisions broke down.
+    </p>
+    <p class="prose">Key problems surfaced quickly:</p>
+
+    <div class="problem-list">
+      <div class="problem-item">
+        <div class="icon">📦</div>
+        <div class="text"><strong>No consolidated order view.</strong> Manufacturers received order summaries from distributors via WhatsApp or email — often delayed by 24–48 hours and formatted inconsistently.</div>
+      </div>
+      <div class="problem-item">
+        <div class="icon">💸</div>
+        <div class="text"><strong>Settlement disputes were opaque.</strong> When payment discrepancies arose, neither side had a shared audit trail. Resolving a single dispute took an average of 3–5 days.</div>
+      </div>
+      <div class="problem-item">
+        <div class="icon">📊</div>
+        <div class="text"><strong>Stock intelligence was lagged.</strong> Manufacturers couldn't identify low-stock situations at the distributor level until stock-outs had already caused missed sales windows.</div>
+      </div>
+      <div class="problem-item">
+        <div class="icon">🗺️</div>
+        <div class="text"><strong>Route compliance was invisible.</strong> Field agents submitted visit reports manually, making it impossible to validate route adherence or retailer coverage in real time.</div>
+      </div>
+      <div class="problem-item">
+        <div class="icon">🔗</div>
+        <div class="text"><strong>Distributor performance was unmeasured.</strong> No structured way to compare distributor throughput, order fill rates, or territory coverage across the network.</div>
+      </div>
+    </div>
+
+    <!-- IMAGE: Research artifacts -->
+    <div class="img-slot img-slot--wide">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <span class="slot-label">Image — Research artifacts</span>
+      <span class="slot-caption">Interview notes, affinity map, or persona · 1600 × 900px</span>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-label">Design Strategy</div>
+    <h2>Balancing depth with usability</h2>
+    <p class="prose">
+      With five distinct problem areas and a user base ranging from data-savvy account managers to field supervisors with minimal screen time, I proposed two structural directions before committing to a solution.
+    </p>
+
+    <div class="approach-grid">
+      <div class="approach-card selected">
+        <div class="chosen-badge">Approved</div>
+        <h3>Approach A — Unified dashboard with module tabs</h3>
+        <p>A single authenticated workspace with a persistent left nav. Each module (Orders, Distributors, Settlements, Stock, Field Ops) lives in its own tab, sharing a common data layer and notification system. Lower learning curve; consistent mental model across user types.</p>
+      </div>
+      <div class="approach-card">
+        <h3>Approach B — Role-based portals</h3>
+        <p>Separate interfaces scoped to each user type: account managers get an analytics-heavy view, field supervisors get a mobile-first task view. Higher design and engineering complexity but more tightly tailored to individual workflows.</p>
+      </div>
+    </div>
+
+    <p class="prose" style="margin-top: 32px;">
+      Approach A was approved as the Phase 1 direction, with Approach B elements earmarked for a mobile field app in Phase 2. This kept the initial engineering footprint manageable while delivering meaningful value across all user types from launch.
+    </p>
+
+    <!-- IMAGE: Early wireframes / information architecture -->
+    <div class="img-slot img-slot--short">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"/><path d="M7 7h.01"/></svg>
+      <span class="slot-label">Image — Early wireframes or IA map</span>
+      <span class="slot-caption">Navigation structure, low-fi flows · 1600 × 700px</span>
+    </div>
+  </div>
+
+  <!-- Solutions -->
+  <div class="section">
+    <div class="section-label">Solutions</div>
+    <h2>What we built</h2>
+    <p class="prose">
+      The OS shipped with five interconnected modules, each designed around the core decision each user type needed to make — not just the data they wanted to see.
+    </p>
+
+    <div class="outcome-grid">
+      <div class="outcome-item">
+        <div class="o-label">Module 01 — Orders</div>
+        <div class="o-text"><strong>Real-time order stream</strong> with status tracking, distributor-level filtering, and bulk confirmation. Replaced the WhatsApp/email loop entirely.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="o-label">Module 02 — Distributors</div>
+        <div class="o-text"><strong>Distributor scorecards</strong> with throughput trends, fill rate, and territory coverage. Made it possible to flag underperforming partners before it became a revenue problem.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="o-label">Module 03 — Settlements</div>
+        <div class="o-text"><strong>Shared payment ledger</strong> with line-item audit trails. Both manufacturer and distributor see the same data, eliminating the information asymmetry that caused disputes.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="o-label">Module 04 — Stock Intelligence</div>
+        <div class="o-text"><strong>SKU-level stock positions</strong> across all distributor warehouses, with low-stock alerts surfaced 48–72 hours before projected stockout.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="o-label">Module 05 — Field Ops</div>
+        <div class="o-text"><strong>Route compliance dashboard</strong> pulling from the mobile field app. Supervisors see visit logs, retailer coverage maps, and agent activity in near real-time.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="o-label">System Design</div>
+        <div class="o-text"><strong>Design system built ground-up</strong> for Omniretail's B2B context — dense data tables, status badges, and a component library that scaled across the five modules without rework.</div>
+      </div>
+    </div>
+
+    <!-- IMAGE: Orders + Distributors module screens -->
+    <div class="img-pair">
+      <div class="img-slot">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+        <span class="slot-label">Image — Orders module</span>
+        <span class="slot-caption">Real-time order stream UI</span>
+      </div>
+      <div class="img-slot">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+        <span class="slot-label">Image — Distributors module</span>
+        <span class="slot-caption">Distributor scorecard view</span>
+      </div>
+    </div>
+
+    <!-- IMAGE: Full-width settlements / stock screen -->
+    <div class="img-slot img-slot--wide">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+      <span class="slot-label">Image — Settlements or Stock Intelligence module</span>
+      <span class="slot-caption">Full-width feature screen · 1600 × 900px</span>
+    </div>
+
+    <!-- IMAGE: Field Ops / Route map -->
+    <div class="img-pair">
+      <div class="img-slot">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+        <span class="slot-label">Image — Field Ops map view</span>
+        <span class="slot-caption">Route compliance / coverage map</span>
+      </div>
+      <div class="img-slot">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+        <span class="slot-label">Image — Design system components</span>
+        <span class="slot-caption">Component library / token system</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Impact -->
+  <div class="section">
+    <div class="section-label">Impact</div>
+    <h2>Outcomes after launch</h2>
+    <p class="prose">
+      The platform launched to three pilot manufacturer accounts in Q2, with full rollout to Omniretail's manufacturer base following a six-week stabilisation period. Key outcomes measured at the 90-day mark:
+    </p>
+    <p class="prose">
+      <strong>Order processing speed improved 3× end-to-end</strong> — from placement by a retailer to confirmation by the manufacturer's system. The elimination of the manual relay through distributor reps accounted for most of the gain.
+    </p>
+    <p class="prose">
+      <strong>Distributor dispute rate dropped 40%</strong> in the first 90 days. The settlement ledger's shared audit trail resolved the information asymmetry that caused most disputes before they escalated.
+    </p>
+    <p class="prose">
+      <strong>Onboarding time for new manufacturer account managers dropped 60%.</strong> A structured walkthrough sequence and contextual empty states meant new users understood the platform within their first session — without training calls.
+    </p>
+
+    <div class="callout">
+      <p>"For the first time, I can look at Monday morning and actually know what happened Friday. That's not a small thing in this market."</p>
+    </div>
+
+    <!-- IMAGE: Final hero / polished product shot -->
+    <div class="img-slot img-slot--wide">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+      <span class="slot-label">Image — Final product shot</span>
+      <span class="slot-caption">Hero visual / polished UI composition · 1600 × 900px</span>
+    </div>
+  </div>
+
+</div><!-- /body -->
+
+<!-- ─── MORE WORK ─────────────────────────────────────────── -->
+<section class="more-work">
+  <div class="more-work-label">More work</div>
+  <div class="more-work-grid">
+
+    <!-- Verve Ecosystem Revamp -->
+    <a href="verve-case-study.html" class="proj-card" style="background: #1f3a3a">
+      <div class="proj-card-top">
+        <div class="proj-card-meta">01 / Case study</div>
+        <div class="proj-card-title">Verve Ecosystem Revamp</div>
+        <div class="proj-card-sub">Verve — 0-1 design</div>
+      </div>
+      <div class="proj-card-device">
+        <div style="width:100%;aspect-ratio:16/10;background:#0f2a2a;border-radius:8px 8px 0 0;padding:7px">
+          <div style="display:flex;gap:4px;margin-bottom:5px">
+            <span style="width:6px;height:6px;border-radius:99px;background:#ff5f56;display:block"></span>
+            <span style="width:6px;height:6px;border-radius:99px;background:#ffbd2e;display:block"></span>
+            <span style="width:6px;height:6px;border-radius:99px;background:#27c93f;display:block"></span>
+          </div>
+          <div style="width:100%;height:calc(100% - 13px);background:#1a3a3a;border-radius:3px;position:relative;overflow:hidden">
+            <span style="position:absolute;left:10px;top:14px;width:60%;height:10px;background:rgba(255,255,255,.18);border-radius:2px;display:block"></span>
+            <span style="position:absolute;left:10px;top:32px;width:40%;height:7px;background:rgba(255,255,255,.1);border-radius:2px;display:block"></span>
+            <span style="position:absolute;right:10px;bottom:10px;width:60px;height:24px;background:rgba(255,255,255,.12);border-radius:4px;display:block"></span>
+          </div>
+        </div>
+      </div>
+      <div class="proj-card-foot">
+        <span>Verve · Brand & Product</span>
+        <span class="open">↗ Open case</span>
+      </div>
+    </a>
+
+    <!-- Switch Core 2.0 -->
+    <a href="switchcore-case-study.html" class="proj-card" style="background: #2a2cc2">
+      <div class="proj-card-top">
+        <div class="proj-card-meta">02 / Case study</div>
+        <div class="proj-card-title">Switch Core 2.0</div>
+        <div class="proj-card-sub">A multi-brand design system</div>
+      </div>
+      <div class="proj-card-device">
+        <div style="width:160px;max-width:55%;aspect-ratio:9/16;background:#1a1c8a;border-radius:14px 14px 0 0;padding:8px;box-shadow:0 0 0 2px rgba(0,0,0,.4)">
+          <div style="width:32px;height:3px;background:rgba(255,255,255,.3);border-radius:2px;margin:0 auto 8px"></div>
+          <div style="width:100%;height:calc(100% - 14px);background:#1a1d7c;border-radius:8px;position:relative;overflow:hidden">
+            <span style="position:absolute;left:10px;top:12px;width:65%;height:8px;background:rgba(255,255,255,.25);border-radius:2px;display:block"></span>
+            <span style="position:absolute;left:10px;top:28px;width:45%;height:6px;background:rgba(255,255,255,.15);border-radius:2px;display:block"></span>
+            <span style="position:absolute;left:10px;right:10px;top:52px;height:56px;background:rgba(255,255,255,.09);border-radius:5px;display:block"></span>
+            <span style="position:absolute;left:10px;right:10px;top:116px;height:32px;background:rgba(255,255,255,.07);border-radius:5px;display:block"></span>
+          </div>
+        </div>
+      </div>
+      <div class="proj-card-foot">
+        <span>Interswitch · Design system</span>
+        <span class="open">↗ Open case</span>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- ─── FOOTER NAV ─────────────────────────────────────────── -->
+<footer class="foot-nav">
+  <a href="index.html">← All projects</a>
+  <a href="mailto:tolushola11@gmail.com">tolushola11@gmail.com</a>
+</footer>
+
+</body>
+</html>

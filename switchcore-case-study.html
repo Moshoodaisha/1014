@@ -1,0 +1,929 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Switch Core 2.0 — Akintayo Olushola</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&family=Inter+Tight:wght@300..700&family=JetBrains+Mono:wght@300..600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0b0b0b;
+    --surface: #111;
+    --card: #161616;
+    --ink: #f4f1ea;
+    --muted: rgba(244,241,234,.55);
+    --faint: rgba(244,241,234,.11);
+    --hairStrong: rgba(244,241,234,.2);
+    --accent: #4a3f8a;
+    --accent-lt: #8b7fd4;
+    --accent-dim: rgba(74,63,138,.22);
+    --serif: "Newsreader", Georgia, serif;
+    --sans: "Inter Tight", system-ui, -apple-system, sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, monospace;
+    --pad: 80px;
+    --col: 740px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; }
+
+  /* ─── NAV ─────────────────────────────────────────────── */
+  .cs-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 28px var(--pad);
+    border-bottom: 1px solid var(--faint);
+  }
+  .cs-nav-home { font-family: var(--serif); font-size: 17px; text-decoration: none; letter-spacing: -.01em; }
+  .cs-nav-next { font-family: var(--mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); text-decoration: none; }
+  .cs-nav-next:hover { color: var(--ink); }
+
+  /* ─── HERO ────────────────────────────────────────────── */
+  .hero {
+    max-width: calc(var(--col) + var(--pad) * 2);
+    margin: 0 auto;
+    padding: 72px var(--pad) 56px;
+  }
+  .hero-eyebrow { font-family: var(--mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--accent-lt); margin-bottom: 24px; }
+  .hero h1 { font-family: var(--serif); font-weight: 400; font-size: clamp(30px, 4.5vw, 50px); line-height: 1.12; letter-spacing: -.02em; margin-bottom: 28px; }
+  .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 40px; }
+  .tag { font-family: var(--mono); font-size: 11px; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); border: 1px solid var(--faint); border-radius: 99px; padding: 4px 12px; }
+
+  .meta-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border: 1px solid var(--faint); border-radius: 10px; overflow: hidden; background: var(--faint); }
+  .meta-cell { background: var(--surface); padding: 18px 20px; }
+  .meta-cell .mk { font-family: var(--mono); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-bottom: 5px; }
+  .meta-cell .mv { font-size: 13px; color: var(--ink); line-height: 1.4; }
+
+  /* ─── COVER ────────────────────────────────────────────── */
+  .cover {
+    width: 100%;
+    aspect-ratio: 16/6;
+    background: linear-gradient(135deg, #16122e 0%, #231d4a 40%, #1a1535 70%, #0f0d22 100%);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+    padding: 48px var(--pad);
+  }
+  .cover::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(90deg, transparent, transparent 80px, rgba(255,255,255,.02) 80px, rgba(255,255,255,.02) 81px);
+  }
+
+  /* Token tree mockup */
+  .cover-tokens {
+    position: relative;
+    z-index: 2;
+    width: 460px;
+    max-width: 50%;
+    background: rgba(8,6,20,.88);
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 10px;
+    padding: 20px;
+    backdrop-filter: blur(12px);
+    font-family: var(--mono);
+  }
+  .ct-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(255,255,255,.07);
+  }
+  .ct-head .badge {
+    font-size: 10px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 4px;
+    background: var(--accent-dim);
+    color: var(--accent-lt);
+  }
+  .ct-tier { margin-bottom: 12px; }
+  .ct-tier-label { font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: rgba(255,255,255,.35); margin-bottom: 6px; }
+  .ct-tokens { display: flex; flex-wrap: wrap; gap: 5px; }
+  .ct-token {
+    font-size: 10px;
+    padding: 4px 9px;
+    border-radius: 4px;
+    color: rgba(255,255,255,.6);
+    background: rgba(255,255,255,.05);
+    border: 1px solid rgba(255,255,255,.07);
+    letter-spacing: .03em;
+  }
+  .ct-token.prim { color: #8b7fd4; background: rgba(139,127,212,.1); border-color: rgba(139,127,212,.2); }
+  .ct-token.sem { color: #6bb5d4; background: rgba(107,181,212,.08); border-color: rgba(107,181,212,.15); }
+  .ct-token.comp { color: rgba(255,255,255,.5); }
+  .ct-brands { display: flex; gap: 8px; margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,.07); }
+  .ct-brand {
+    flex: 1;
+    height: 28px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  .ct-brand.verve { background: rgba(61,107,92,.25); color: #5a9e87; border: 1px solid rgba(61,107,92,.3); }
+  .ct-brand.qt { background: rgba(212,169,106,.15); color: #d4a96a; border: 1px solid rgba(212,169,106,.2); }
+  .ct-brand.isw { background: rgba(180,180,220,.1); color: #a8a8e8; border: 1px solid rgba(180,180,220,.18); }
+
+  /* Stat panels */
+  .cover-stats {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 180px;
+    max-width: 22%;
+  }
+  .c-stat { background: rgba(8,6,20,.85); border: 1px solid rgba(255,255,255,.1); border-radius: 8px; padding: 14px 16px; backdrop-filter: blur(8px); }
+  .c-stat .n { font-family: var(--serif); font-size: 28px; font-weight: 300; color: var(--accent-lt); line-height: 1; margin-bottom: 4px; }
+  .c-stat .d { font-size: 11px; color: rgba(255,255,255,.45); line-height: 1.4; font-family: var(--mono); letter-spacing: .02em; }
+
+  /* Mobile cover fallback */
+  .cover-mobile { display: none; width: 100%; padding: 32px var(--pad); background: linear-gradient(135deg, #16122e, #231d4a); }
+  .cover-mobile-stats { display: flex; gap: 2px; background: var(--faint); border-radius: 10px; overflow: hidden; }
+  .cms { flex: 1; background: var(--surface); padding: 20px 16px; text-align: center; }
+  .cms .n { font-family: var(--serif); font-size: 28px; color: var(--accent-lt); line-height: 1; margin-bottom: 4px; }
+  .cms .l { font-family: var(--mono); font-size: 10px; color: var(--muted); letter-spacing: .05em; text-transform: uppercase; }
+
+  /* ─── BODY ─────────────────────────────────────────────── */
+  .body { max-width: calc(var(--col) + var(--pad) * 2); margin: 0 auto; padding: 0 var(--pad); }
+
+  .section { padding: 64px 0; border-top: 1px solid var(--faint); }
+  .section:first-child { border-top: none; padding-top: 56px; }
+
+  .sec-label { font-family: var(--mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent-lt); margin-bottom: 18px; }
+
+  .section h2 { font-family: var(--serif); font-weight: 400; font-size: clamp(22px, 3vw, 34px); line-height: 1.18; letter-spacing: -.01em; margin-bottom: 22px; }
+
+  .prose { font-size: 16px; line-height: 1.78; color: var(--muted); }
+  .prose + .prose { margin-top: 16px; }
+  .prose strong { color: var(--ink); font-weight: 500; }
+
+  /* ─── METRICS ──────────────────────────────────────────── */
+  .metrics {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+    margin: 44px 0;
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--faint);
+  }
+  .metric { background: var(--surface); padding: 28px 22px; }
+  .metric .num { font-family: var(--serif); font-size: 42px; font-weight: 300; line-height: 1; color: var(--accent-lt); margin-bottom: 8px; }
+  .metric .lbl { font-size: 13px; color: var(--muted); line-height: 1.5; }
+  .metric .lbl strong { color: var(--ink); display: block; margin-bottom: 2px; }
+
+  /* ─── PROBLEM LIST ─────────────────────────────────────── */
+  .problem-list { display: flex; flex-direction: column; gap: 0; margin: 32px 0; border: 1px solid var(--faint); border-radius: 10px; overflow: hidden; }
+  .problem-item { display: grid; grid-template-columns: 36px 1fr; gap: 18px; padding: 20px 22px; border-bottom: 1px solid var(--faint); align-items: start; }
+  .problem-item:last-child { border-bottom: none; }
+  .problem-item .icon { font-size: 16px; padding-top: 2px; }
+  .problem-item .text { font-size: 14px; color: var(--muted); line-height: 1.65; }
+  .problem-item .text strong { color: var(--ink); }
+
+  /* ─── APPROACH CARDS ───────────────────────────────────── */
+  .approach-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 32px 0; }
+  .approach-card { background: var(--card); border: 1px solid var(--faint); border-radius: 10px; padding: 26px 22px; position: relative; }
+  .approach-card.selected { border-color: var(--accent-lt); background: rgba(74,63,138,.08); }
+  .chosen-badge { position: absolute; top: 16px; right: 16px; font-family: var(--mono); font-size: 10px; letter-spacing: .06em; text-transform: uppercase; color: var(--accent-lt); background: var(--accent-dim); border-radius: 4px; padding: 3px 8px; }
+  .approach-card h3 { font-family: var(--serif); font-weight: 400; font-size: 18px; letter-spacing: -.01em; margin-bottom: 12px; line-height: 1.25; }
+  .approach-card p { font-size: 13.5px; color: var(--muted); line-height: 1.65; }
+
+  /* ─── CALLOUT ──────────────────────────────────────────── */
+  .callout { margin: 44px 0; padding: 28px 32px; border-left: 3px solid var(--accent-lt); background: var(--accent-dim); border-radius: 0 10px 10px 0; }
+  .callout p { font-family: var(--serif); font-size: 19px; font-style: italic; line-height: 1.55; color: var(--ink); letter-spacing: -.01em; margin-bottom: 10px; }
+  .callout cite { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: .04em; font-style: normal; }
+
+  /* ─── TOKEN TABLE ──────────────────────────────────────── */
+  .token-table { margin: 32px 0; border: 1px solid var(--faint); border-radius: 10px; overflow: hidden; }
+  .tt-head { display: grid; grid-template-columns: 1.2fr 1fr 2fr; padding: 12px 20px; background: var(--card); border-bottom: 1px solid var(--faint); font-family: var(--mono); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+  .tt-row { display: grid; grid-template-columns: 1.2fr 1fr 2fr; padding: 14px 20px; border-bottom: 1px solid var(--faint); align-items: center; font-size: 13.5px; }
+  .tt-row:last-child { border-bottom: none; }
+  .tt-row .tier { color: var(--ink); font-weight: 500; }
+  .tt-row .count { font-family: var(--mono); font-size: 12px; color: var(--accent-lt); }
+  .tt-row .desc { color: var(--muted); line-height: 1.5; font-size: 13px; }
+
+  /* ─── COMPONENT GRID ───────────────────────────────────── */
+  .component-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin: 32px 0; border-radius: 10px; overflow: hidden; background: var(--faint); }
+  .comp-card { background: var(--surface); padding: 22px 20px; }
+  .comp-card .comp-name { font-size: 14px; color: var(--ink); font-weight: 500; margin-bottom: 6px; }
+  .comp-card .comp-desc { font-size: 12.5px; color: var(--muted); line-height: 1.55; margin-bottom: 10px; }
+  .comp-card .comp-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+  .comp-tag { font-family: var(--mono); font-size: 10px; letter-spacing: .04em; padding: 2px 7px; border-radius: 3px; background: var(--accent-dim); color: var(--accent-lt); }
+
+  /* ─── BRAND SPLIT ──────────────────────────────────────── */
+  .brand-split { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 32px 0; }
+  .brand-card { border-radius: 10px; padding: 24px 22px; border: 1px solid var(--faint); }
+  .brand-card.verve { border-color: rgba(61,107,92,.3); background: rgba(61,107,92,.07); }
+  .brand-card.qt { border-color: rgba(212,169,106,.25); background: rgba(212,169,106,.06); }
+  .brand-label { font-family: var(--mono); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; margin-bottom: 12px; }
+  .brand-card.verve .brand-label { color: #5a9e87; }
+  .brand-card.qt .brand-label { color: #d4a96a; }
+  .brand-card h3 { font-family: var(--serif); font-weight: 400; font-size: 18px; letter-spacing: -.01em; margin-bottom: 10px; }
+  .brand-card p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+  .brand-swatch-row { display: flex; gap: 6px; margin-top: 14px; }
+  .swatch { width: 24px; height: 24px; border-radius: 5px; }
+
+  /* ─── PROCESS STEPS ────────────────────────────────────── */
+  .process-steps { display: flex; flex-direction: column; gap: 0; margin: 32px 0; border: 1px solid var(--faint); border-radius: 10px; overflow: hidden; }
+  .ps-row { display: grid; grid-template-columns: 32px 1fr auto; gap: 18px; padding: 20px 22px; border-bottom: 1px solid var(--faint); align-items: start; }
+  .ps-row:last-child { border-bottom: none; }
+  .ps-num { font-family: var(--serif); font-size: 20px; font-weight: 300; color: var(--accent-lt); opacity: .7; line-height: 1.2; }
+  .ps-content .ps-title { font-size: 14px; color: var(--ink); font-weight: 500; margin-bottom: 5px; }
+  .ps-content .ps-desc { font-size: 13.5px; color: var(--muted); line-height: 1.6; }
+  .ps-weeks { font-family: var(--mono); font-size: 10px; color: var(--muted); letter-spacing: .04em; white-space: nowrap; padding-top: 3px; }
+
+  /* ─── IMAGE PLACEHOLDERS ───────────────────────────────── */
+  .img-slot { width: 100%; border: 1.5px dashed var(--hairStrong); border-radius: 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; background: var(--card); color: var(--muted); font-family: var(--mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; position: relative; overflow: hidden; cursor: default; }
+  .img-slot::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(-45deg, transparent, transparent 12px, rgba(255,255,255,.015) 12px, rgba(255,255,255,.015) 13px); }
+  .img-slot svg { opacity: .3; position: relative; z-index: 1; }
+  .slot-label { position: relative; z-index: 1; color: var(--muted); }
+  .slot-caption { position: relative; z-index: 1; font-size: 10px; color: rgba(244,241,234,.28); letter-spacing: .04em; text-transform: none; font-family: var(--sans); }
+  .img-slot--wide { aspect-ratio: 16/9; margin: 36px 0; }
+  .img-slot--short { aspect-ratio: 21/9; margin: 32px 0; }
+  .img-slot--tall { aspect-ratio: 4/3; margin: 32px 0; }
+  .img-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 32px 0; }
+  .img-pair .img-slot { aspect-ratio: 4/3; margin: 0; }
+  .img-trio { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 32px 0; }
+  .img-trio .img-slot { aspect-ratio: 1/1; margin: 0; }
+
+  /* ─── MORE WORK ────────────────────────────────────────── */
+  .more-work { border-top: 1px solid var(--faint); padding: 64px var(--pad); }
+  .more-work-label { font-family: var(--mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: 28px; }
+  .more-work-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .proj-card { display: block; text-decoration: none; color: var(--ink); border-radius: 16px; overflow: hidden; border: 1px solid rgba(255,255,255,.08); aspect-ratio: 4/3; position: relative; transition: transform .2s ease, border-color .2s ease; }
+  .proj-card:hover { transform: translateY(-2px); border-color: rgba(255,255,255,.18); }
+  .proj-card-top { padding: 26px 26px 0; }
+  .proj-card-meta { font-family: var(--mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: rgba(255,255,255,.5); margin-bottom: 10px; }
+  .proj-card-title { font-family: var(--serif); font-weight: 400; font-size: 20px; line-height: 1.2; letter-spacing: -.01em; color: #fff; max-width: 86%; }
+  .proj-card-sub { font-size: 12px; color: rgba(255,255,255,.6); margin-top: 7px; }
+  .proj-card-foot { position: absolute; left: 26px; bottom: 20px; right: 26px; display: flex; justify-content: space-between; align-items: center; font-family: var(--mono); font-size: 11px; color: rgba(255,255,255,.55); }
+  .proj-card-foot .open { color: #fff; }
+  .proj-card-device { position: absolute; left: 0; right: 0; bottom: 0; height: 52%; display: flex; align-items: flex-end; justify-content: center; padding: 0 26px; }
+
+  /* ─── FOOTER ───────────────────────────────────────────── */
+  .cs-foot { display: flex; justify-content: space-between; align-items: center; padding: 36px var(--pad); border-top: 1px solid var(--faint); }
+  .cs-foot a { font-family: var(--mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); text-decoration: none; }
+  .cs-foot a:hover { color: var(--ink); }
+
+  /* ─── RESPONSIVE ───────────────────────────────────────── */
+  @media (max-width: 860px) {
+    :root { --pad: 36px; }
+    .metrics { grid-template-columns: 1fr 1fr; }
+    .approach-grid { grid-template-columns: 1fr; }
+    .component-grid { grid-template-columns: 1fr 1fr; }
+    .brand-split { grid-template-columns: 1fr !important; }
+    .meta-strip { grid-template-columns: 1fr 1fr; }
+    .more-work-grid { grid-template-columns: 1fr; }
+    .cover { aspect-ratio: 16/9; flex-direction: column; padding: 28px var(--pad); }
+    .cover-tokens { max-width: 100%; width: 100%; }
+    .cover-stats { max-width: 100%; width: 100%; flex-direction: row; }
+    .c-stat { flex: 1; }
+    .tt-head, .tt-row { grid-template-columns: 1fr 80px; }
+    .tt-head .desc, .tt-row .desc { display: none; }
+    .img-trio { grid-template-columns: 1fr 1fr; }
+  }
+
+  @media (max-width: 560px) {
+    :root { --pad: 20px; }
+    .metrics { grid-template-columns: 1fr 1fr; }
+    .metric .num { font-size: 32px; }
+    .cover { display: none; }
+    .cover-mobile { display: block; }
+    .img-pair { grid-template-columns: 1fr; }
+    .img-trio { grid-template-columns: 1fr; }
+    .component-grid { grid-template-columns: 1fr; }
+    .more-work-grid { grid-template-columns: 1fr; }
+    .cs-nav { padding: 20px var(--pad); }
+    .hero { padding: 48px var(--pad) 40px; }
+    .meta-strip { grid-template-columns: 1fr 1fr; }
+    .ps-row { grid-template-columns: 28px 1fr; }
+    .ps-weeks { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ─── NAV ──────────────────────────────────────────────── -->
+<nav class="cs-nav">
+  <a class="cs-nav-home" href="index.html">← Akintayo Olushola</a>
+  <a class="cs-nav-next" href="omniretail-case-study.html">Next project ↗</a>
+</nav>
+
+<!-- ─── HERO ─────────────────────────────────────────────── -->
+<div class="hero">
+  <div class="hero-eyebrow">02 / Case Study · Interswitch Group · 2023–2024</div>
+  <h1>Building a multi-brand design system for Interswitch's payment products</h1>
+  <div class="tags">
+    <span class="tag">Design Systems</span>
+    <span class="tag">Multi-brand</span>
+    <span class="tag">Token Architecture</span>
+    <span class="tag">Component Library</span>
+    <span class="tag">Documentation</span>
+    <span class="tag">Figma</span>
+    <span class="tag">B2B · Fintech</span>
+  </div>
+  <div class="meta-strip">
+    <div class="meta-cell"><div class="mk">Timeline</div><div class="mv">14 months · 2023–2024</div></div>
+    <div class="meta-cell"><div class="mk">Products</div><div class="mv">Verve · Quickteller · Interswitch</div></div>
+    <div class="meta-cell"><div class="mk">Tools</div><div class="mv">Figma · Token Studio · Notion</div></div>
+    <div class="meta-cell"><div class="mk">Role</div><div class="mv">Product Design Lead · Systems Design</div></div>
+  </div>
+</div>
+
+<!-- ─── COVER ─────────────────────────────────────────────── -->
+<div class="cover">
+  <div class="cover-tokens">
+    <div class="ct-head">
+      <span class="badge">Switch Core 2.0</span>
+      <span style="font-size:11px;color:rgba(255,255,255,.35);letter-spacing:.04em;margin-left:4px">· Token Architecture</span>
+    </div>
+    <div class="ct-tier">
+      <div class="ct-tier-label">Tier 1 — Primitives</div>
+      <div class="ct-tokens">
+        <span class="ct-token prim">color.teal.500</span>
+        <span class="ct-token prim">color.amber.400</span>
+        <span class="ct-token prim">space.4</span>
+        <span class="ct-token prim">radius.md</span>
+        <span class="ct-token prim">font.size.14</span>
+        <span class="ct-token prim">shadow.sm</span>
+      </div>
+    </div>
+    <div class="ct-tier">
+      <div class="ct-tier-label">Tier 2 — Semantic</div>
+      <div class="ct-tokens">
+        <span class="ct-token sem">color.brand.primary</span>
+        <span class="ct-token sem">color.surface.default</span>
+        <span class="ct-token sem">space.component.padding</span>
+        <span class="ct-token sem">color.text.muted</span>
+      </div>
+    </div>
+    <div class="ct-tier">
+      <div class="ct-tier-label">Tier 3 — Component</div>
+      <div class="ct-tokens">
+        <span class="ct-token comp">button.bg.primary</span>
+        <span class="ct-token comp">card.border.radius</span>
+        <span class="ct-token comp">badge.text.color</span>
+      </div>
+    </div>
+    <div class="ct-brands">
+      <div class="ct-brand verve">Verve</div>
+      <div class="ct-brand qt">Quickteller</div>
+      <div class="ct-brand isw">Interswitch</div>
+    </div>
+  </div>
+  <div class="cover-stats">
+    <div class="c-stat">
+      <div class="n">89</div>
+      <div class="d">variables across 5 collections</div>
+    </div>
+    <div class="c-stat">
+      <div class="n">6</div>
+      <div class="d">component sets shipped</div>
+    </div>
+    <div class="c-stat">
+      <div class="n">3</div>
+      <div class="d">brands · one shared foundation</div>
+    </div>
+  </div>
+</div>
+
+<!-- Mobile cover fallback -->
+<div class="cover-mobile">
+  <div class="cover-mobile-stats">
+    <div class="cms"><div class="n">89</div><div class="l">Variables</div></div>
+    <div class="cms"><div class="n">6</div><div class="l">Components</div></div>
+    <div class="cms"><div class="n">3</div><div class="l">Brands</div></div>
+  </div>
+</div>
+
+<!-- ─── BODY ──────────────────────────────────────────────── -->
+<div class="body">
+
+  <!-- SUMMARY -->
+  <div class="section" style="border-top:none;padding-top:56px">
+    <div class="sec-label">Overview</div>
+    <h2>Summary</h2>
+    <p class="prose">
+      Interswitch Group's three flagship payment products — Verve, Quickteller, and Interswitch — shared no design infrastructure. All three had evolved over years of independent product development, each carrying their own ad-hoc component decisions, colour overrides, and inconsistent spacing systems.
+    </p>
+    <p class="prose">
+      I designed and built <strong>Switch Core 2.0</strong>: a multi-brand design system in Figma that gives all three products a shared foundational layer — while preserving the distinct visual identities that each brand requires. Across 14 months, the system grew to cover token architecture, a full component library, and per-component documentation built to a professional standard.
+    </p>
+
+    <div class="metrics">
+      <div class="metric">
+        <div class="num">89</div>
+        <div class="lbl"><strong>Design variables</strong> across five token collections — from primitives to component-level aliases</div>
+      </div>
+      <div class="metric">
+        <div class="num">6</div>
+        <div class="lbl"><strong>Component sets</strong> shipped at launch — Button, Card, Badge, Toast, Accordion, Avatar</div>
+      </div>
+      <div class="metric">
+        <div class="num">3</div>
+        <div class="lbl"><strong>Token tiers</strong> — Primitive → Semantic → Component, enabling brand theming at the alias layer</div>
+      </div>
+      <div class="metric">
+        <div class="num">3</div>
+        <div class="lbl"><strong>Brands supported</strong> — Verve, Quickteller, and Interswitch, each with independent theme collections on a shared foundation</div>
+      </div>
+    </div>
+
+    <!-- IMAGE: System overview / Figma file hero -->
+    <div class="img-slot img-slot--wide">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+      <span class="slot-label">Image — Figma design system file overview</span>
+      <span class="slot-caption">Cover page or full system canvas · 1600 × 900px · PNG or WebP</span>
+    </div>
+  </div>
+
+  <!-- CONTEXT -->
+  <div class="section">
+    <div class="sec-label">Context</div>
+    <h2>Three brands. No shared foundation. The same problem building three times.</h2>
+    <p class="prose">
+      Interswitch Group operates multiple payment products under its umbrella. Verve, Quickteller, and Interswitch are the three largest — and despite being sister products under the same group, they were designed in complete isolation. Different files, different components, different spacing logic. Every design decision made for one had to be independently recreated for the other two.
+    </p>
+    <p class="prose">
+      This created compounding costs: <strong>duplicated design effort</strong> across every feature, <strong>inconsistent product quality</strong> between the three brands, and <strong>no path to scaling</strong> without tripling the work. As design lead across all three products, I was in a position to see the full picture — and to fix it at the root over a 14-month build.
+    </p>
+
+    <div class="callout">
+      <p>"We were designing the same button in two places, making different decisions each time, and wondering why the products felt like they didn't belong to the same company."</p>
+      <cite>— Internal design team retrospective, 2024.</cite>
+    </div>
+
+    <p class="prose">
+      The goal of Switch Core 2.0 was not to make both products look identical. It was to give them a <strong>shared foundation</strong> — one token architecture, one component library — while preserving the distinct visual character that each brand needs to serve its users.
+    </p>
+  </div>
+
+  <!-- PROBLEM -->
+  <div class="section">
+    <div class="sec-label">Problem</div>
+    <h2>What was breaking down</h2>
+    <p class="prose">
+      Before any architecture decisions were made, I documented the full state of both product design files. The audit surfaced five recurring failure modes that the system needed to resolve:</p>
+
+    <div class="problem-list">
+      <div class="problem-item">
+        <div class="icon">🔀</div>
+        <div class="text"><strong>No token layer.</strong> Colours, typography, and spacing were hardcoded into every component. Changing a brand colour meant finding and replacing every instance manually — across thousands of frames.</div>
+      </div>
+      <div class="problem-item">
+        <div class="icon">🪞</div>
+        <div class="text"><strong>Duplicated component decisions.</strong> Both products had their own Button, Card, and input variants built independently. Neither set was complete. Neither was documented.</div>
+      </div>
+      <div class="problem-item">
+        <div class="icon">📐</div>
+        <div class="text"><strong>Inconsistent spacing systems.</strong> Verve and Quickteller used different spacing increments — sometimes within the same product. Auto-layout behaviour was inconsistent and undocumented.</div>
+      </div>
+      <div class="problem-item">
+        <div class="icon">📄</div>
+        <div class="text"><strong>No documentation.</strong> Components existed in both files with no usage guidelines, state specs, or variant logic. Onboarding a new designer meant weeks of reverse-engineering decisions from shipped screens.</div>
+      </div>
+      <div class="problem-item">
+        <div class="icon">📦</div>
+        <div class="text"><strong>Brand theming was manual.</strong> To show how a component would look in a Quickteller context vs a Verve context, designers had to manually recolour and adjust components. There was no shared swap mechanism.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- APPROACH -->
+  <div class="section">
+    <div class="sec-label">Design Strategy</div>
+    <h2>The architecture decision — how to structure a multi-brand system</h2>
+    <p class="prose">
+      The core architectural question: how do you build a single design system that serves two brands with different visual identities — without forcing one brand to look like the other, and without maintaining two separate systems?
+    </p>
+    <p class="prose">I evaluated two structural approaches before committing to a direction:</p>
+
+    <div class="approach-grid">
+      <div class="approach-card selected">
+        <div class="chosen-badge">Approved</div>
+        <h3>Approach A — Shared primitives, brand-scoped semantic tokens</h3>
+        <p>One primitive layer shared across both brands. Semantic tokens alias into it per-brand — so <code style="font-family:var(--mono);font-size:12px;background:rgba(255,255,255,.06);padding:1px 5px;border-radius:3px">color.brand.primary</code> resolves to teal for Verve and amber for Quickteller. Components consume semantic tokens only — brand switching is automatic and instantaneous.</p>
+      </div>
+      <div class="approach-card">
+        <h3>Approach B — Parallel systems with a shared base file</h3>
+        <p>A base Figma file containing shared utilities, and two separate brand files that inherit from it. Cleaner separation of concerns, but introduces file dependency complexity, harder to synchronise, and doubles the component maintenance surface for the design team.</p>
+      </div>
+    </div>
+
+    <p class="prose" style="margin-top:24px;">
+      Approach A was selected. The alias chain model kept the system in a single file, made brand theming automatic at the semantic layer, and required no additional file management overhead for the team. Brand distinctiveness was preserved through the semantic tier — not by maintaining separate codebases.
+    </p>
+  </div>
+
+  <!-- TOKEN ARCHITECTURE -->
+  <div class="section">
+    <div class="sec-label">Token Architecture</div>
+    <h2>Three tiers. 89 variables. One source of truth.</h2>
+    <p class="prose">
+      The token architecture is the foundation the entire system rests on. Getting this layer right meant every component, every brand theme, and every future product could be maintained and extended without rework.
+    </p>
+
+    <div class="token-table">
+      <div class="tt-head">
+        <span>Tier</span>
+        <span>Variables</span>
+        <span class="desc">What it defines</span>
+      </div>
+      <div class="tt-row">
+        <span class="tier">Primitives</span>
+        <span class="count">34 vars</span>
+        <span class="desc">Raw values — every colour, size, radius, and shadow that exists in the system. Brand-agnostic. Never used directly in components.</span>
+      </div>
+      <div class="tt-row">
+        <span class="tier">Semantic</span>
+        <span class="count">38 vars</span>
+        <span class="desc">Intent-driven aliases — <code style="font-family:var(--mono);font-size:12px">color.surface.default</code>, <code style="font-family:var(--mono);font-size:12px">color.text.muted</code>, <code style="font-family:var(--mono);font-size:12px">color.brand.primary</code>. Three sets — one per brand. This is where Verve, Quickteller, and Interswitch diverge.</span>
+      </div>
+      <div class="tt-row">
+        <span class="tier">Component</span>
+        <span class="count">17 vars</span>
+        <span class="desc">Component-scoped tokens — <code style="font-family:var(--mono);font-size:12px">button.bg.primary</code>, <code style="font-family:var(--mono);font-size:12px">card.border.radius</code>. These alias into semantic tokens, so brand switching cascades automatically.</span>
+      </div>
+    </div>
+
+    <p class="prose">
+      All 89 variables live in six Figma variable collections: <strong>Primitives</strong>, <strong>Semantic/Verve</strong>, <strong>Semantic/Quickteller</strong>, <strong>Semantic/Interswitch</strong>, <strong>Component</strong>, and <strong>Mode</strong> (light/dark). Switching a component across all three brands is a single mode swap — no manual recolouring.
+    </p>
+
+    <!-- IMAGE: Token architecture diagram / Figma variables panel -->
+    <div class="img-slot img-slot--wide">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"/><path d="M7 7h.01"/></svg>
+      <span class="slot-label">Image — Token architecture / Figma variables panel</span>
+      <span class="slot-caption">Primitive → Semantic → Component alias chain · 1600 × 900px</span>
+    </div>
+
+    <!-- IMAGE: Brand token comparison — 3 brands -->
+    <div class="img-trio" style="margin:32px 0">
+      <div class="img-slot" style="aspect-ratio:4/3;margin:0">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/></svg>
+        <span class="slot-label">Image — Verve tokens</span>
+        <span class="slot-caption">Colour palette + alias mapping</span>
+      </div>
+      <div class="img-slot" style="aspect-ratio:4/3;margin:0">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/></svg>
+        <span class="slot-label">Image — Quickteller tokens</span>
+        <span class="slot-caption">Colour palette + alias mapping</span>
+      </div>
+      <div class="img-slot" style="aspect-ratio:4/3;margin:0">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/></svg>
+        <span class="slot-label">Image — Interswitch tokens</span>
+        <span class="slot-caption">Colour palette + alias mapping</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- BRANDS -->
+  <div class="section">
+    <div class="sec-label">Brand Expressions</div>
+    <h2>One foundation. Three identities.</h2>
+    <p class="prose">
+      The semantic token layer is where the three brands diverge. All three consume the same primitive palette — but their semantic aliases resolve to different values, producing distinct visual identities while sharing the same component architecture underneath.
+    </p>
+
+    <div class="brand-split" style="grid-template-columns:1fr 1fr 1fr">
+      <div class="brand-card verve">
+        <div class="brand-label">Verve</div>
+        <h3>Confident. Grounded. Distinctly African.</h3>
+        <p>Deep teal primary, high-contrast surfaces, typographic trust signals. The product context is financial — every visual decision earns its place by making the interface feel reliable.</p>
+        <div class="brand-swatch-row">
+          <div class="swatch" style="background:#3d6b5c"></div>
+          <div class="swatch" style="background:#5a9e87"></div>
+          <div class="swatch" style="background:#1a3a30"></div>
+          <div class="swatch" style="background:#f4f1ea"></div>
+          <div class="swatch" style="background:#0b0b0b"></div>
+        </div>
+      </div>
+      <div class="brand-card qt">
+        <div class="brand-label">Quickteller</div>
+        <h3>Warm. Approachable. Everyday payments.</h3>
+        <p>Warm amber primary, lighter surface weights, slightly more expressive rhythm. Consumer-facing — the visual language needs to feel accessible and familiar to everyday users.</p>
+        <div class="brand-swatch-row">
+          <div class="swatch" style="background:#d4a96a"></div>
+          <div class="swatch" style="background:#b8892a"></div>
+          <div class="swatch" style="background:#2a1e08"></div>
+          <div class="swatch" style="background:#faf7f2"></div>
+          <div class="swatch" style="background:#0d0a04"></div>
+        </div>
+      </div>
+      <div class="brand-card" style="border-color:rgba(180,180,220,.25);background:rgba(180,180,220,.05)">
+        <div class="brand-label" style="color:#a8a8e8;font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:12px">Interswitch</div>
+        <h3>Authoritative. Institutional. Enterprise-grade.</h3>
+        <p>Deep navy primary, structured surfaces, high information density. B2B and enterprise-facing — the system needs to communicate scale, security, and professional competence above all else.</p>
+        <div class="brand-swatch-row">
+          <div class="swatch" style="background:#1a2260"></div>
+          <div class="swatch" style="background:#3040a0"></div>
+          <div class="swatch" style="background:#0f1440"></div>
+          <div class="swatch" style="background:#f0f2fa"></div>
+          <div class="swatch" style="background:#080a18"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- IMAGE: Same component in both brand themes -->
+    <div class="img-slot img-slot--wide">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+      <span class="slot-label">Image — Same component, all three brand themes</span>
+      <span class="slot-caption">Button / Card in Verve, Quickteller, and Interswitch theming · 1600 × 700px</span>
+    </div>
+  </div>
+
+  <!-- COMPONENTS -->
+  <div class="section">
+    <div class="sec-label">Component Library</div>
+    <h2>Six component sets at launch</h2>
+    <p class="prose">
+      Components were built in priority order — highest frequency of use across both products first. Each component was built to support all required states, documented with a dedicated documentation page, and validated against both brand themes before being marked production-ready.
+    </p>
+
+    <div class="component-grid">
+      <div class="comp-card">
+        <div class="comp-name">Button</div>
+        <div class="comp-desc">Primary, secondary, ghost, destructive, and icon variants. All sizes. Full state coverage including loading and disabled.</div>
+        <div class="comp-tags">
+          <span class="comp-tag">5 variants</span>
+          <span class="comp-tag">3 sizes</span>
+          <span class="comp-tag">6 states</span>
+        </div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-name">Card</div>
+        <div class="comp-desc">Default, elevated, and outlined surfaces. Slotted content areas for flexible composition. Supports interactive and static use cases.</div>
+        <div class="comp-tags">
+          <span class="comp-tag">3 variants</span>
+          <span class="comp-tag">Slotted</span>
+        </div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-name">Badge</div>
+        <div class="comp-desc">Status, label, and count variants. Semantic colour coding aligned to the token system — success, warning, error, neutral.</div>
+        <div class="comp-tags">
+          <span class="comp-tag">4 colours</span>
+          <span class="comp-tag">3 sizes</span>
+        </div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-name">Toast</div>
+        <div class="comp-desc">System notification component. Four intent variants. Auto-dismiss and persistent modes. Position-agnostic.</div>
+        <div class="comp-tags">
+          <span class="comp-tag">4 intents</span>
+          <span class="comp-tag">2 modes</span>
+        </div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-name">Accordion</div>
+        <div class="comp-desc">Expandable content sections. Single and multi-expand modes. Icon slot for custom expansion indicators.</div>
+        <div class="comp-tags">
+          <span class="comp-tag">2 modes</span>
+          <span class="comp-tag">Icon slot</span>
+        </div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-name">Avatar</div>
+        <div class="comp-desc">Image, initials, and icon fallbacks. Four sizes. Stacking group variant for team or multi-user display contexts.</div>
+        <div class="comp-tags">
+          <span class="comp-tag">3 fallbacks</span>
+          <span class="comp-tag">4 sizes</span>
+          <span class="comp-tag">Group</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- IMAGE: Component set overview -->
+    <div class="img-slot img-slot--wide">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+      <span class="slot-label">Image — Component library overview</span>
+      <span class="slot-caption">All 6 components, all variants · 1600 × 900px</span>
+    </div>
+
+    <!-- IMAGE: Component close-ups -->
+    <div class="img-trio">
+      <div class="img-slot">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+        <span class="slot-label">Button variants</span>
+      </div>
+      <div class="img-slot">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+        <span class="slot-label">Card + Badge</span>
+      </div>
+      <div class="img-slot">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+        <span class="slot-label">Toast + Avatar</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- DOCUMENTATION -->
+  <div class="section">
+    <div class="sec-label">Documentation</div>
+    <h2>Every component documented. Every decision explained.</h2>
+    <p class="prose">
+      One of the failure modes of previous component libraries at Interswitch was the absence of documentation. Components existed but their intent, variants, states, and usage rules were all implicit knowledge — held by whoever built them.
+    </p>
+    <p class="prose">
+      Switch Core 2.0 ships with a <strong>full documentation page per component</strong>, modelled on professional standards. Each page covers: the component's purpose and when to use it, all variants and their use cases, interaction states, accessibility notes, and usage examples showing correct and incorrect application.
+    </p>
+
+    <!-- IMAGE: Documentation page -->
+    <div class="img-slot img-slot--wide">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      <span class="slot-label">Image — Component documentation page</span>
+      <span class="slot-caption">Button or Card doc page in Figma · 1600 × 900px</span>
+    </div>
+
+    <div class="callout">
+      <p>"Before this, onboarding a designer meant two weeks of 'just look at existing screens'. Now there's a reference. That alone changes how the team functions."</p>
+      <cite>— Design team feedback, Interswitch Group, 2024.</cite>
+    </div>
+  </div>
+
+  <!-- PROCESS -->
+  <div class="section">
+    <div class="sec-label">Process</div>
+    <h2>How the system was built</h2>
+    <p class="prose">
+      The 14-month build followed a structured sequence: foundations before components, tokens before styles, shared infrastructure before brand-specific themes. Skipping any step would have required rework downstream.
+    </p>
+
+    <div class="process-steps">
+      <div class="ps-row">
+        <div class="ps-num">1</div>
+        <div class="ps-content">
+          <div class="ps-title">Audit & Inventory</div>
+          <div class="ps-desc">Full audit of all three product Figma files. Catalogued every existing component, colour usage, spacing value, and shadow. Identified duplication, inconsistency, and missing coverage to define the scope of the build.</div>
+        </div>
+        <div class="ps-weeks">Months 1–2</div>
+      </div>
+      <div class="ps-row">
+        <div class="ps-num">2</div>
+        <div class="ps-content">
+          <div class="ps-title">Primitive Token Layer</div>
+          <div class="ps-desc">Defined the raw value set — every colour stop, spacing unit, radius, and shadow depth that would exist in the system. Validated against all three brands' identity requirements before any aliases were created.</div>
+        </div>
+        <div class="ps-weeks">Months 2–3</div>
+      </div>
+      <div class="ps-row">
+        <div class="ps-num">3</div>
+        <div class="ps-content">
+          <div class="ps-title">Semantic + Brand Tokens</div>
+          <div class="ps-desc">Built the intent layer — separate Verve, Quickteller, and Interswitch semantic collections aliasing into the shared primitives. Validated that all three brand themes were visually distinct and accessible before proceeding.</div>
+        </div>
+        <div class="ps-weeks">Months 3–6</div>
+      </div>
+      <div class="ps-row">
+        <div class="ps-num">4</div>
+        <div class="ps-content">
+          <div class="ps-title">Text Styles & Effect Styles</div>
+          <div class="ps-desc">Defined the full typography scale and shadow system, connected to the token layer. Established naming conventions shared across all three brand contexts for the engineering handoff.</div>
+        </div>
+        <div class="ps-weeks">Months 4–7</div>
+      </div>
+      <div class="ps-row">
+        <div class="ps-num">5</div>
+        <div class="ps-content">
+          <div class="ps-title">Component Build</div>
+          <div class="ps-desc">Built all six component sets in priority order. Each component was designed, reviewed, themed across all three brands, and documented before being marked complete. Three-brand validation added significant rigour to each review cycle.</div>
+        </div>
+        <div class="ps-weeks">Months 6–12</div>
+      </div>
+      <div class="ps-row">
+        <div class="ps-num">6</div>
+        <div class="ps-content">
+          <div class="ps-title">Documentation & Handoff</div>
+          <div class="ps-desc">Wrote full component documentation pages. Published the system to all three product teams with a structured adoption guide covering how to apply the token library to existing screens.</div>
+        </div>
+        <div class="ps-weeks">Months 12–14</div>
+      </div>
+    </div>
+
+    <!-- IMAGE: Build process / Figma file structure -->
+    <div class="img-slot img-slot--short">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+      <span class="slot-label">Image — Figma file structure / page organisation</span>
+      <span class="slot-caption">System file pages overview · 1600 × 700px</span>
+    </div>
+  </div>
+
+  <!-- IMPACT -->
+  <div class="section">
+    <div class="sec-label">Impact</div>
+    <h2>What the system made possible</h2>
+    <p class="prose">
+      Switch Core 2.0 shipped to the Verve, Quickteller, and Interswitch design teams at the end of the 14-month build. The immediate impact was structural — it changed how all three teams work, not just how the products look.
+    </p>
+    <p class="prose">
+      <strong>Brand switching became instantaneous.</strong> A component that previously required manual recolouring to move between brand contexts now switches in a single Figma variable mode swap. Designers stopped context-switching between three files to check what "the same thing" looked like across brands.
+    </p>
+    <p class="prose">
+      <strong>Component coverage went from incomplete to comprehensive.</strong> Both product teams previously operated with partial, undocumented component libraries. Switch Core 2.0 gave them a complete, documented foundation — with clear paths to extend it without breaking the shared layer.
+    </p>
+    <p class="prose">
+      <strong>Onboarding a new designer became measurably faster.</strong> With documented components and a structured token system, new team members could read the system and understand the design language — rather than reverse-engineering it from shipped screens.
+    </p>
+
+    <!-- IMAGE: Final system — full-bleed composition -->
+    <div class="img-slot img-slot--wide">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+      <span class="slot-label">Image — Final system hero shot</span>
+      <span class="slot-caption">Tokens + components + both brand themes in one composition · 1600 × 900px</span>
+    </div>
+  </div>
+
+</div><!-- /body -->
+
+<!-- ─── MORE WORK ──────────────────────────────────────────── -->
+<section class="more-work">
+  <div class="more-work-label">More work</div>
+  <div class="more-work-grid">
+
+    <!-- Verve Ecosystem Revamp -->
+    <a href="verve-case-study.html" class="proj-card" style="background:#1f3a3a">
+      <div class="proj-card-top">
+        <div class="proj-card-meta">01 / Case study</div>
+        <div class="proj-card-title">Verve Ecosystem Revamp</div>
+        <div class="proj-card-sub">Verve — 0-1 design</div>
+      </div>
+      <div class="proj-card-device">
+        <div style="width:100%;aspect-ratio:16/10;background:#0f2a2a;border-radius:8px 8px 0 0;padding:7px">
+          <div style="display:flex;gap:4px;margin-bottom:5px">
+            <span style="width:6px;height:6px;border-radius:99px;background:#ff5f56;display:block"></span>
+            <span style="width:6px;height:6px;border-radius:99px;background:#ffbd2e;display:block"></span>
+            <span style="width:6px;height:6px;border-radius:99px;background:#27c93f;display:block"></span>
+          </div>
+          <div style="width:100%;height:calc(100% - 13px);background:#1a3a3a;border-radius:3px;position:relative;overflow:hidden">
+            <span style="position:absolute;left:10px;top:14px;width:60%;height:10px;background:rgba(255,255,255,.18);border-radius:2px;display:block"></span>
+            <span style="position:absolute;left:10px;top:32px;width:40%;height:7px;background:rgba(255,255,255,.1);border-radius:2px;display:block"></span>
+            <span style="position:absolute;right:10px;bottom:10px;width:60px;height:24px;background:rgba(255,255,255,.12);border-radius:4px;display:block"></span>
+          </div>
+        </div>
+      </div>
+      <div class="proj-card-foot">
+        <span>6 products · one identity</span>
+        <span class="open">↗ Open case</span>
+      </div>
+    </a>
+
+    <!-- Omniretail -->
+    <a href="omniretail-case-study.html" class="proj-card" style="background:#5b4230">
+      <div class="proj-card-top">
+        <div class="proj-card-meta">03 / Case study</div>
+        <div class="proj-card-title">Manufacturer Operating System</div>
+        <div class="proj-card-sub">Omniretail — Manufacturers &amp; Distributors</div>
+      </div>
+      <div class="proj-card-device">
+        <div style="display:flex;gap:8px;align-items:flex-end;justify-content:center;width:100%">
+          <div style="width:36%;max-width:120px;aspect-ratio:9/16;background:#3a2a1a;border-radius:12px 12px 0 0;padding:7px">
+            <div style="width:26px;height:3px;background:rgba(255,255,255,.3);border-radius:2px;margin:0 auto 7px"></div>
+            <div style="width:100%;height:calc(100% - 13px);background:#5a3e28;border-radius:7px;position:relative;overflow:hidden">
+              <span style="position:absolute;left:7px;top:10px;width:60%;height:7px;background:rgba(255,255,255,.25);border-radius:2px;display:block"></span>
+              <span style="position:absolute;left:7px;right:7px;top:26px;height:44px;background:rgba(255,255,255,.1);border-radius:4px;display:block"></span>
+            </div>
+          </div>
+          <div style="width:36%;max-width:120px;aspect-ratio:9/16;background:#4a3520;border-radius:12px 12px 0 0;padding:7px;margin-bottom:16px">
+            <div style="width:26px;height:3px;background:rgba(255,255,255,.3);border-radius:2px;margin:0 auto 7px"></div>
+            <div style="width:100%;height:calc(100% - 13px);background:#6b4a33;border-radius:7px;position:relative;overflow:hidden">
+              <span style="position:absolute;left:7px;top:10px;width:60%;height:7px;background:rgba(255,255,255,.25);border-radius:2px;display:block"></span>
+              <span style="position:absolute;left:7px;right:7px;top:26px;height:44px;background:rgba(255,255,255,.1);border-radius:4px;display:block"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="proj-card-foot">
+        <span>0-1 · Supply chain SaaS</span>
+        <span class="open">↗ Open case</span>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- ─── FOOTER ─────────────────────────────────────────────── -->
+<footer class="cs-foot">
+  <a href="index.html">← All projects</a>
+  <a href="mailto:tolushola11@gmail.com">tolushola11@gmail.com</a>
+</footer>
+
+</body>
+</html>
