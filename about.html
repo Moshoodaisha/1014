@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>About — Akintayo Olushola</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&family=Inter+Tight:wght@300..700&family=JetBrains+Mono:wght@300..600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0b0b0b; --card: #141414; --ink: #f4f1ea;
+    --muted: rgba(244,241,234,.58); --hair: rgba(244,241,234,.14);
+    --hairStrong: rgba(244,241,234,.24);
+    --serif: "Newsreader", Georgia, serif;
+    --sans: "Inter Tight", system-ui, -apple-system, sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, monospace;
+    --pad: 48px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 15px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; }
+
+  /* ─── HEADER ─────────────────────────────────────────── */
+  .header { display: grid; grid-template-columns: 1fr auto 1fr; padding: 24px var(--pad) 20px; align-items: center; gap: 16px; position: sticky; top: 0; z-index: 100; background: rgba(11,11,11,.88); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid var(--hair); }
+  .status { font-family: var(--mono); font-size: 12px; letter-spacing: .04em; color: var(--muted); }
+  .status .on { color: var(--ink); }
+  .wordmark { font-family: var(--serif); font-size: 20px; letter-spacing: -.01em; text-align: center; white-space: nowrap; text-decoration: none; }
+  .nav { justify-self: end; display: flex; gap: 28px; font-size: 14px; }
+  .nav a { text-decoration: underline; text-underline-offset: 4px; text-decoration-color: rgba(244,241,234,.4); }
+  .nav a:hover, .nav a.active { text-decoration-color: var(--ink); }
+
+  /* ─── HAMBURGER ───────────────────────────────────────── */
+  .hamburger {
+    display: none; justify-self: end; flex-direction: column; gap: 5px;
+    cursor: pointer; padding: 6px; background: none; border: none;
+    position: relative; z-index: 200; /* sits above drawer */
+  }
+  .hamburger span { display: block; width: 22px; height: 1.5px; background: var(--ink); transition: transform .25s ease, opacity .25s ease; transform-origin: center; }
+  .hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+  /* ─── MOBILE DRAWER ───────────────────────────────────── */
+  .nav-drawer {
+    display: none; position: fixed; inset: 0;
+    background: rgba(11,11,11,.97); z-index: 150;
+    flex-direction: column; align-items: center; justify-content: center; gap: 36px;
+  }
+  .nav-drawer.open { display: flex; }
+  .nav-drawer a { font-family: var(--serif); font-size: 32px; font-weight: 400; text-decoration: none; color: var(--ink); letter-spacing: -.01em; }
+  .nav-drawer a:hover { color: var(--muted); }
+
+  /* Close button inside drawer */
+  .drawer-close {
+    position: absolute; top: 22px; right: var(--pad);
+    width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;
+    background: none; border: 1px solid var(--hairStrong); border-radius: 50%;
+    color: var(--ink); font-size: 18px; cursor: pointer; line-height: 1;
+    transition: border-color .2s;
+  }
+  .drawer-close:hover { border-color: var(--ink); }
+
+  .nav-drawer .status-drawer { font-family: var(--mono); font-size: 12px; color: var(--muted); letter-spacing: .06em; margin-top: 16px; }
+
+  /* ─── PAGE ────────────────────────────────────────────── */
+  .page { min-height: calc(100vh - 73px); display: flex; align-items: center; padding: 80px var(--pad); }
+  .about-grid { display: grid; grid-template-columns: 420px 1fr; gap: 80px; width: 100%; max-width: 1100px; margin: 0 auto; align-items: start; }
+
+  /* ─── IMAGE ───────────────────────────────────────────── */
+  .about-image-wrap { position: sticky; top: 100px; }
+  .about-image { width: 100%; aspect-ratio: 3/4; border-radius: 4px; overflow: hidden; background: var(--card); border: 1px solid var(--hair); position: relative; }
+  .about-image img { width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block; filter: grayscale(12%); transition: filter .4s ease; }
+  .about-image:hover img { filter: grayscale(0%); }
+  .about-image-placeholder { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; color: var(--muted); }
+  .about-image-placeholder svg { opacity: .3; }
+  .about-image-placeholder span { font-family: var(--mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; opacity: .5; }
+  .about-caption { margin-top: 16px; font-family: var(--mono); font-size: 11px; letter-spacing: .06em; color: var(--muted); text-transform: uppercase; display: flex; justify-content: space-between; }
+
+  /* ─── COPY ────────────────────────────────────────────── */
+  .about-copy { padding-top: 4px; }
+  .about-eyebrow { font-family: var(--mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: 32px; }
+
+  /* FIX 1: no line break — white-space keeps it on one line */
+  .about-name { font-family: var(--serif); font-weight: 400; font-size: clamp(36px, 4vw, 52px); line-height: 1.1; letter-spacing: -.025em; margin-bottom: 8px; white-space: nowrap; }
+
+  .about-title { font-family: var(--mono); font-size: 13px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-bottom: 48px; padding-bottom: 48px; border-bottom: 1px solid var(--hair); }
+
+  .about-section { margin-bottom: 40px; }
+  .about-section-label { font-family: var(--mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: rgba(244,241,234,.35); margin-bottom: 14px; }
+  .about-section p { font-size: 16px; line-height: 1.75; color: rgba(244,241,234,.85); }
+  .about-section p + p { margin-top: 16px; }
+  .about-section em { font-family: var(--serif); font-style: italic; color: var(--ink); font-size: 17px; }
+
+  .about-cta { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; margin-top: 48px; padding-top: 40px; border-top: 1px solid var(--hair); }
+  .cta-link { font-family: var(--mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; text-decoration: none; color: var(--ink); border: 1px solid var(--hairStrong); padding: 12px 20px; border-radius: 2px; transition: border-color .2s, background .2s; }
+  .cta-link:hover { border-color: var(--ink); background: rgba(244,241,234,.06); }
+  .cta-link.primary { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+  .cta-link.primary:hover { background: rgba(244,241,234,.88); }
+
+  /* ─── FOOTER ──────────────────────────────────────────── */
+  .foot-bar { border-top: 1px solid var(--hair); padding: 28px var(--pad); display: flex; justify-content: space-between; align-items: center; }
+  .foot-bar a { font-family: var(--mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color .2s; }
+  .foot-bar a:hover { color: var(--ink); }
+
+  /* ─── RESPONSIVE ──────────────────────────────────────── */
+  @media (max-width: 900px) {
+    :root { --pad: 32px; }
+    .header { grid-template-columns: 1fr auto; }
+    .status { display: none; }
+    .wordmark { grid-column: 1; text-align: left; }
+    .nav { display: none; }
+    .hamburger { display: flex; }
+    .page { padding: 48px var(--pad) 64px; align-items: flex-start; }
+    .about-grid { grid-template-columns: 1fr; gap: 48px; }
+    .about-image-wrap { position: static; }
+    .about-image { aspect-ratio: 4/3; max-height: 400px; }
+    .about-name { white-space: normal; } /* allow wrap on small screens if needed */
+  }
+  @media (max-width: 560px) {
+    :root { --pad: 20px; }
+    .header { padding: 18px var(--pad) 16px; }
+    .wordmark { font-size: 17px; }
+    .page { padding: 40px var(--pad) 56px; }
+    .about-image { aspect-ratio: 1/1; }
+    .about-name { font-size: 28px; }
+    .about-cta { flex-direction: column; align-items: stretch; }
+    .cta-link { text-align: center; }
+    .foot-bar { flex-direction: column; gap: 12px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ─── HEADER ─────────────────────────────────────────── -->
+<header class="header">
+  <div class="status">AKT · LAGOS · <span class="on">● GMT+1</span></div>
+  <a href="index.html" class="wordmark">Akintayo Olushola</a>
+  <nav class="nav">
+    <a href="index.html">Home</a>
+    <a href="index.html">Work</a>
+    <a href="https://docs.google.com/document/d/1En96IYQPj1_KBR84mNqo5ZwYdlai6eUb6u9LK4rri1I/edit?usp=sharing" target="_blank" rel="noopener">Resume</a>
+  </nav>
+  <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<!-- ─── MOBILE DRAWER ─────────────────────────────────── -->
+<nav class="nav-drawer" id="nav-drawer">
+  <!-- FIX 3: explicit close button inside the drawer -->
+  <button class="drawer-close" id="drawer-close" aria-label="Close menu">✕</button>
+  <a href="index.html">Home</a>
+  <a href="index.html">Work</a>
+  <a href="https://docs.google.com/document/d/1En96IYQPj1_KBR84mNqo5ZwYdlai6eUb6u9LK4rri1I/edit?usp=sharing" target="_blank" rel="noopener">Resume</a>
+  <div class="status-drawer">AKT · LAGOS · ● GMT+1</div>
+</nav>
+
+<!-- ─── MAIN ────────────────────────────────────────────── -->
+<main class="page">
+  <div class="about-grid">
+
+    <!-- LEFT: IMAGE -->
+    <div class="about-image-wrap">
+      <div class="about-image">
+        <!-- Replace with your photo: <img src="./your-photo.jpg" alt="Akintayo Olushola" /> -->
+        <div class="about-image-placeholder">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+            <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/>
+          </svg>
+          <span>Your photo here</span>
+        </div>
+      </div>
+      <div class="about-caption">
+        <span>Akintayo Olushola</span><span>Lagos, NG</span>
+      </div>
+    </div>
+
+    <!-- RIGHT: COPY -->
+    <div class="about-copy">
+      <div class="about-eyebrow">About me</div>
+
+      <!-- FIX 1: single line — no <br> -->
+      <h1 class="about-name">Akintayo Olushola</h1>
+      <div class="about-title">Product Design Lead · Interswitch Group</div>
+
+      <!-- FIX 2: stats block removed -->
+
+      <div class="about-section">
+        <div class="about-section-label">Background</div>
+        <p>I'm a product design lead based in Lagos, Nigeria, with over seven years of experience shaping digital products across fintech, payments, and enterprise SaaS. Currently leading design at <em>Interswitch Group</em>, one of Africa's foremost integrated payment and digital commerce companies.</p>
+        <p>My work sits at the intersection of systems thinking and hands-on craft — from defining design strategy and building scalable component libraries, to getting into the details of interactions that make products feel intuitive and trustworthy.</p>
+      </div>
+
+      <div class="about-section">
+        <div class="about-section-label">What I do</div>
+        <p>I take complex, fragmented product ecosystems and bring them into coherence. That means establishing shared design languages, leading cross-functional teams, and designing experiences that hold up under real-world pressure — not just on a Figma canvas.</p>
+        <p>Whether it's a multi-brand design system spanning 1,300+ components, a ground-up ecosystem revamp across seven products, or a manufacturer operating platform for supply chain teams — <em>I build things that last and scale.</em></p>
+      </div>
+
+      <div class="about-section">
+        <div class="about-section-label">Beyond the screen</div>
+        <p>When I'm not designing, I'm thinking about the business logic behind why products succeed or fail. I'm drawn to the messy, under-designed parts of industries — the back-office tools, the merchant dashboards, the operator interfaces — where good design genuinely moves the needle.</p>
+      </div>
+
+      <div class="about-cta">
+        <a href="mailto:tolushola11@gmail.com" class="cta-link primary">Get in touch</a>
+        <a href="https://docs.google.com/document/d/1En96IYQPj1_KBR84mNqo5ZwYdlai6eUb6u9LK4rri1I/edit?usp=sharing" target="_blank" rel="noopener" class="cta-link">Read CV ↗</a>
+        <a href="https://www.linkedin.com/in/olushola-tayo/" target="_blank" rel="noopener" class="cta-link">LinkedIn ↗</a>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<!-- ─── FOOTER ─────────────────────────────────────────── -->
+<footer class="foot-bar">
+  <a href="index.html">← Back to work</a>
+  <a href="mailto:tolushola11@gmail.com">tolushola11@gmail.com</a>
+</footer>
+
+<script>
+  const hamburger = document.getElementById('hamburger');
+  const drawer = document.getElementById('nav-drawer');
+  const drawerClose = document.getElementById('drawer-close');
+
+  function openDrawer() {
+    drawer.classList.add('open');
+    hamburger.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeDrawer() {
+    drawer.classList.remove('open');
+    hamburger.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  hamburger.addEventListener('click', () => {
+    drawer.classList.contains('open') ? closeDrawer() : openDrawer();
+  });
+
+  drawerClose.addEventListener('click', closeDrawer);
+
+  drawer.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', closeDrawer);
+  });
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && drawer.classList.contains('open')) closeDrawer();
+  });
+</script>
+
+</body>
+</html>

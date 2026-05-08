@@ -133,6 +133,16 @@
     margin-top: 16px;
   }
 
+  /* Close button inside drawer */
+  .drawer-close {
+    position: absolute; top: 22px; right: var(--pad);
+    width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;
+    background: none; border: 1px solid var(--hairStrong); border-radius: 50%;
+    color: var(--ink); font-size: 18px; cursor: pointer; line-height: 1;
+    transition: border-color .2s;
+  }
+  .drawer-close:hover { border-color: var(--ink); }
+
   /* ─── HERO ───────────────────────────────────────────── */
   .hero {
     min-height: calc(700px - 72px);
@@ -417,7 +427,8 @@
 
   <!-- Desktop nav -->
   <nav class="nav">
-    <a href="mailto:tolushola11@gmail.com">Contact me</a>
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
     <a href="https://docs.google.com/document/d/1En96IYQPj1_KBR84mNqo5ZwYdlai6eUb6u9LK4rri1I/edit?usp=sharing" target="_blank" rel="noopener">Resume</a>
   </nav>
 
@@ -431,7 +442,9 @@
 
 <!-- Mobile nav drawer -->
 <nav class="nav-drawer" id="nav-drawer">
-  <a href="mailto:tolushola11@gmail.com" id="drawer-contact">Contact me</a>
+  <button class="drawer-close" id="drawer-close" aria-label="Close menu">✕</button>
+  <a href="index.html">Home</a>
+  <a href="about.html">About</a>
   <a href="https://docs.google.com/document/d/1En96IYQPj1_KBR84mNqo5ZwYdlai6eUb6u9LK4rri1I/edit?usp=sharing" target="_blank" rel="noopener">Resume</a>
   <div class="status-drawer">AKT · LAGOS · ● GMT+1</div>
 </nav>
@@ -553,7 +566,13 @@
 <script>
   const hamburger = document.getElementById('hamburger');
   const drawer = document.getElementById('nav-drawer');
-  const drawerContact = document.getElementById('drawer-contact');
+  const drawerClose = document.getElementById('drawer-close');
+
+  function closeDrawer() {
+    drawer.classList.remove('open');
+    hamburger.classList.remove('open');
+    document.body.style.overflow = '';
+  }
 
   hamburger.addEventListener('click', () => {
     const isOpen = drawer.classList.toggle('open');
@@ -561,22 +580,16 @@
     document.body.style.overflow = isOpen ? 'hidden' : '';
   });
 
+  drawerClose.addEventListener('click', closeDrawer);
+
   // Close drawer on link click
   drawer.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', () => {
-      drawer.classList.remove('open');
-      hamburger.classList.remove('open');
-      document.body.style.overflow = '';
-    });
+    link.addEventListener('click', closeDrawer);
   });
 
   // Close drawer on ESC
   document.addEventListener('keydown', e => {
-    if (e.key === 'Escape' && drawer.classList.contains('open')) {
-      drawer.classList.remove('open');
-      hamburger.classList.remove('open');
-      document.body.style.overflow = '';
-    }
+    if (e.key === 'Escape' && drawer.classList.contains('open')) closeDrawer();
   });
 </script>
 
