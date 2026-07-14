@@ -52,7 +52,7 @@
   /* ─── HEADER ─────────────────────────────────────────── */
   .header {
     display: grid;
-    grid-template-columns: 1fr auto auto;
+    grid-template-columns: 1fr auto 1fr;
     padding: 24px var(--pad) 20px;
     align-items: center;
     gap: 16px;
@@ -79,6 +79,7 @@
     letter-spacing: -.01em;
     text-align: center;
     white-space: nowrap;
+    justify-self: center;
   }
 
   .nav {
@@ -468,8 +469,6 @@
     <a href="https://docs.google.com/document/d/1En96IYQPj1_KBR84mNqo5ZwYdlai6eUb6u9LK4rri1I/edit?usp=sharing" target="_blank" rel="noopener">Resume</a>
   </nav>
 
-  <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark and light theme" title="Toggle theme">🌙</button>
-
   <!-- Mobile hamburger -->
   <button class="hamburger" id="hamburger" aria-label="Toggle menu">
     <span></span>
@@ -623,27 +622,6 @@
   // Close drawer on link click
   drawer.querySelectorAll('a').forEach(link => {
     link.addEventListener('click', closeDrawer);
-  });
-
-  // Theme toggle
-  const themeToggle = document.getElementById('theme-toggle');
-  const storedTheme = localStorage.getItem('theme');
-  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  const initialTheme = storedTheme || (prefersDark ? 'dark' : 'light');
-
-  function setTheme(theme) {
-    const isLight = theme === 'light';
-    document.documentElement.classList.toggle('light', isLight);
-    themeToggle.textContent = isLight ? '☀️' : '🌙';
-    themeToggle.setAttribute('aria-label', `Switch to ${isLight ? 'dark' : 'light'} theme`);
-    localStorage.setItem('theme', theme);
-  }
-
-  setTheme(initialTheme);
-
-  themeToggle.addEventListener('click', () => {
-    const nextTheme = document.documentElement.classList.contains('light') ? 'dark' : 'light';
-    setTheme(nextTheme);
   });
 
   // Close drawer on ESC
