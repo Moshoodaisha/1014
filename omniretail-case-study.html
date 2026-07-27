@@ -530,67 +530,77 @@
     padding-bottom: 72px;
   }
 
-  /* Project cards (reusing portfolio card style) */
-  .proj-card {
+  /* Homepage-style product cards for More work */
+  .more-work-grid .card {
     display: block;
     text-decoration: none;
     color: var(--ink);
     border-radius: 16px;
     overflow: hidden;
     border: 1px solid rgba(255,255,255,.08);
-    aspect-ratio: 4/3;
+    aspect-ratio: 1/1;
     position: relative;
     transition: transform .2s ease, border-color .2s ease;
   }
-  .proj-card:hover {
+  .more-work-grid .card:hover {
     transform: translateY(-2px);
     border-color: rgba(255,255,255,.18);
   }
-  .proj-card-top { padding: 28px 28px 0; }
-  .proj-card-meta {
+  .more-work-grid .card-top { padding: 28px 28px 0; }
+  .more-work-grid .card-meta {
     font-family: var(--mono);
     font-size: 11px;
     letter-spacing: .06em;
     text-transform: uppercase;
-    color: rgba(255,255,255,.5);
+    color: rgba(255,255,255,.56);
     margin-bottom: 10px;
   }
-  .proj-card-title {
+  .more-work-grid .card-title {
     font-family: var(--serif);
     font-weight: 400;
-    font-size: 22px;
-    line-height: 1.2;
+    font-size: 26px;
+    line-height: 1.18;
     letter-spacing: -.01em;
     color: #fff;
-    max-width: 88%;
+    max-width: 90%;
   }
-  .proj-card-sub {
+  .more-work-grid .card-sub {
     font-size: 13px;
-    color: rgba(255,255,255,.65);
+    color: rgba(255,255,255,.72);
     margin-top: 8px;
   }
-  .proj-card-foot {
+  .more-work-grid .card-device {
     position: absolute;
-    left: 28px; bottom: 22px; right: 28px;
+    left: 0; right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 58%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 28px;
+  }
+  .more-work-grid .card-device img {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+  }
+  .more-work-grid .card-foot {
+    position: absolute;
+    left: 28px; bottom: 24px; right: 28px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     font-family: var(--mono);
     font-size: 11px;
-    color: rgba(255,255,255,.55);
+    letter-spacing: .04em;
+    color: rgba(255,255,255,.65);
+    z-index: 2;
   }
-  .proj-card-foot .open { color: #fff; }
-
-  /* Card device area */
-  .proj-card-device {
-    position: absolute;
-    left: 0; right: 0; bottom: 0;
-    height: 52%;
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-    padding: 0 28px;
-  }
+  .more-work-grid .card-foot .open { color: #fff; }
 
   /* ─── RESPONSIVE ────────────────────────────────────────── */
   @media (max-width: 800px) {
@@ -967,53 +977,32 @@
   <div class="more-work-label">More work</div>
   <div class="more-work-grid">
 
-    <!-- Verve Ecosystem Revamp -->
-    <a href="verve-case-study.html" class="proj-card" style="background: #1f3a3a">
-      <div class="proj-card-top">
-        <div class="proj-card-meta">01 / Case study</div>
-        <div class="proj-card-title">Verve Ecosystem Revamp</div>
-        <div class="proj-card-sub">Verve — 0-1 design</div>
+    <a href="verve-case-study.html" class="card" style="background:#1f3a3a">
+      <div class="card-top">
+        <div class="card-meta">01 / Case study</div>
+        <div class="card-title">Verve Ecosystem Revamp</div>
+        <div class="card-sub">Verve — 0-1 design</div>
       </div>
-      <div class="proj-card-device">
-        <div style="width:100%;aspect-ratio:16/10;background:#0f2a2a;border-radius:8px 8px 0 0;padding:7px">
-          <div style="display:flex;gap:4px;margin-bottom:5px">
-            <span style="width:6px;height:6px;border-radius:99px;background:#ff5f56;display:block"></span>
-            <span style="width:6px;height:6px;border-radius:99px;background:#ffbd2e;display:block"></span>
-            <span style="width:6px;height:6px;border-radius:99px;background:#27c93f;display:block"></span>
-          </div>
-          <div style="width:100%;height:calc(100% - 13px);background:#1a3a3a;border-radius:3px;position:relative;overflow:hidden">
-            <span style="position:absolute;left:10px;top:14px;width:60%;height:10px;background:rgba(255,255,255,.18);border-radius:2px;display:block"></span>
-            <span style="position:absolute;left:10px;top:32px;width:40%;height:7px;background:rgba(255,255,255,.1);border-radius:2px;display:block"></span>
-            <span style="position:absolute;right:10px;bottom:10px;width:60px;height:24px;background:rgba(255,255,255,.12);border-radius:4px;display:block"></span>
-          </div>
-        </div>
+      <div class="card-device">
+        <img src="./img2-idex.png" alt="Verve ecosystem revamp preview" />
       </div>
-      <div class="proj-card-foot">
-        <span>Verve · Brand & Product</span>
+      <div class="card-foot">
+        <span>7 products · one system</span>
         <span class="open">↗ Open case</span>
       </div>
     </a>
 
-    <!-- Switch Core 2.0 -->
-    <a href="switchcore-case-study.html" class="proj-card" style="background: #2a2cc2">
-      <div class="proj-card-top">
-        <div class="proj-card-meta">02 / Case study</div>
-        <div class="proj-card-title">Switch Core 2.0</div>
-        <div class="proj-card-sub">A multi-brand design system</div>
+    <a href="switchcore-case-study.html" class="card" style="background:#6F7D5E">
+      <div class="card-top">
+        <div class="card-meta">02 / Case study</div>
+        <div class="card-title">Switch Core 2.0</div>
+        <div class="card-sub">A multi-brand design system</div>
       </div>
-      <div class="proj-card-device">
-        <div style="width:160px;max-width:55%;aspect-ratio:9/16;background:#1a1c8a;border-radius:14px 14px 0 0;padding:8px;box-shadow:0 0 0 2px rgba(0,0,0,.4)">
-          <div style="width:32px;height:3px;background:rgba(255,255,255,.3);border-radius:2px;margin:0 auto 8px"></div>
-          <div style="width:100%;height:calc(100% - 14px);background:#1a1d7c;border-radius:8px;position:relative;overflow:hidden">
-            <span style="position:absolute;left:10px;top:12px;width:65%;height:8px;background:rgba(255,255,255,.25);border-radius:2px;display:block"></span>
-            <span style="position:absolute;left:10px;top:28px;width:45%;height:6px;background:rgba(255,255,255,.15);border-radius:2px;display:block"></span>
-            <span style="position:absolute;left:10px;right:10px;top:52px;height:56px;background:rgba(255,255,255,.09);border-radius:5px;display:block"></span>
-            <span style="position:absolute;left:10px;right:10px;top:116px;height:32px;background:rgba(255,255,255,.07);border-radius:5px;display:block"></span>
-          </div>
-        </div>
+      <div class="card-device">
+        <img src="./img4-idex.png" alt="Switch Core 2.0 preview" />
       </div>
-      <div class="proj-card-foot">
-        <span>Interswitch · Design system</span>
+      <div class="card-foot">
+        <span>3 Brands → 1328 Components</span>
         <span class="open">↗ Open case</span>
       </div>
     </a>
